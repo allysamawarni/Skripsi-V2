@@ -1,31 +1,38 @@
 @extends('layouts.main')
 
 @section('container')
-    <a href="{{ route('kategori.create') }}" type="button" class="btn btn-primary">Tambah</a>
-
-    <div class="box-body table-responsive mt-5">
-        <table class="table scroll-horizontal-vertical" id="crudTable">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Kategori</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+          <h3>Daftar Kategori</h3>
+          <a href="{{ route('kategori.create') }}" class="btn btn-primary">Tambah</a>
+        </div>
+        <div class="card-body">
+          <table class="table" id="crudTable">
+              <thead>
+                  <tr>
+                      <th>No</th>
+                      <th>Nama Kategori</th>
+                      <th>Aksi</th>
+                  </tr>
+              </thead>
+              <tbody></tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
 @endsection
 @push('script')
     <script>
         let datatable = $('#crudTable').DataTable({
             ordering: true,
             searchable: true,
-
+            bAutoWidth: false,
             ajax: {
                 url: '{!! url()->current() !!}',
             },
-
             columns: [{
                     data: 'DT_RowIndex',
                     width: '5%',

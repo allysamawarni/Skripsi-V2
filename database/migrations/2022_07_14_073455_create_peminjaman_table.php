@@ -16,16 +16,15 @@ return new class extends Migration
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->bigIncrements('id_peminjaman', 30);
             $table->foreignId('id_barang')
-                ->references('id_barang')
-                ->on('users')
-                ->onUpdate('restrict')
+                // ->references('id_barang')
+                // ->on('users')
+                // ->onUpdate('restrict')
                 ->onDelete('cascade');
             $table->string('nama_kegiatan');
             $table->date('tgl_pinjam');
             $table->date('tgl_pengembalian');
             $table->integer('jml_item');
             $table->timestamps();
-        });
         });
     }
 

@@ -26,13 +26,13 @@ class KategoriController extends Controller
                 <div class="aksi d-flex align-items-center">
                     <div class="aksi-edit px-1">
                         <a class="btn btn-success edit" href="'. route('kategori.edit', $item->id_kategori) .'">
-                            edit
+                            Edit
                         </a>
                     </div>
                     <div class="aksi-hapus">
                         <form class="inline-block" action="'. route('kategori.destroy', $item->id_kategori) .'" method="POST">
                             <button class="btn btn-danger">
-                                hapus
+                                Hapus
                             </button>
                                 '. method_field('delete') . csrf_field() .'
                         </form>

@@ -54,13 +54,13 @@
                     class="fas fa fa-music me-2"></i>PSUP</div>
             <div class="list-group list-group-flush my-3">
                 <a href="{{ route('dashboard') }}"
-                    class="list-group-item list-group-item-action bg-transparent second-text active {{ request()->is('dashboard') ? 'active' : '' }}"><i
+                    class="list-group-item list-group-item-action bg-transparent second-text {{ request()->is('/') ? 'active' : '' }}"><i
                         class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
                 <a href="{{ route('kategori.index') }}"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('kategori') ? 'active' : '' }}"><i
                         class="fas fa-project-diagram me-2"></i>Kategori</a>
                 <a href="{{ route('barang.index') }}"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('barang') ? 'active' : '' }}"><i
                         class="fas fa-chart-line me-2"></i>Barang</a>
                 <a href="{{ route('status.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
@@ -86,7 +86,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
                 <div class="d-flex align-items-center">
                     <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
-                    <h2 class="fs-2 m-0">Dashboard</h2>
+                    <h2 class="fs-2 m-0">Menu</h2>
                 </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
