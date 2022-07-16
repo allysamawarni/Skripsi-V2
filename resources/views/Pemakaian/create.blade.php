@@ -10,15 +10,28 @@
         <div class="card-body">
           <form action="{{ route('pemakaian.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
+              @php($users = Auth::user()->getRoleNames()[0])
+              @if($users == 'Ukm')
               <div class="form-group my-2">
-                <select name="id_user" id="id_user" class="form-control" required>
+                <select name="id_user" id="id_user" class="form-control" required readOnly>
                       <option value="">Pilih User</option>
                       @foreach ($user as $key => $item)
-                          <option value="{{ $key }}">{{ $item }}</option>
+                          <option value="{{ $key }}" {{Auth::user()->id === $key ? 'selected' : null}}>{{ $item }}</option>
                       @endforeach
                   </select>
                   <span class="help-block with-errors"></span>
               </div>
+              @else
+                <div class="form-group my-2">
+                  <select name="id_user" id="id_user" class="form-control" required>
+                        <option value="">Pilih User</option>
+                        @foreach ($user as $key => $item)
+                            <option value="{{ $key }}">{{ $item }}</option>
+                        @endforeach
+                    </select>
+                    <span class="help-block with-errors"></span>
+                </div>
+              @endif
               <div class="form-group my-2">
                 <select name="id_barang" id="id_barang" class="form-control" required>
                       <option value="">Pilih Barang</option>

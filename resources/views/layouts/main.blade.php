@@ -47,6 +47,8 @@
             <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
                     class="fas fa fa-music me-2"></i>PSUP</div>
             <div class="list-group list-group-flush my-3">
+              @php($user = Auth::user()->getRoleNames()[0])
+              @if($user == 'Admin' || $user == 'Ketua')
                 <a href="{{ route('dashboard') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text {{ request()->is('/') ? 'active' : '' }}"><i
                         class="fas fa-tachometer-alt me-2"></i>Beranda</a>
@@ -72,6 +74,10 @@
                         class="fas fa-map-marker-alt me-2"></i>Outlet</a> --}}
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                         class="fas fa-power-off me-2"></i>Logout</a> --}}
+              @elseif ($user == 'Ukm')
+                <a href="{{ route('pemakaian.create') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pemakaian/create') ? 'active' : '' }}"><i class="fas fa-user-clock me-2"></i>Pemakaian</a>
+                <a href="{{ route('komplain.create') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('komplain/create') ? 'active' : '' }}"><i class="fas fa-comment me-2"></i>Komplain</a>
+              @endif
             </div>
         </div>
         <!-- /#sidebar-wrapper -->

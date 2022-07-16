@@ -113,7 +113,6 @@ class BarangController extends Controller
     {
         $item = Barang::findOrFail($barang->id_barang);
          $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
-
          $status = Status::all()->pluck('nama_status', 'id_status');
         return view('barang.edit', [
             'item' => $item,
@@ -139,7 +138,6 @@ class BarangController extends Controller
          }
          $data['status_barang'] = Status::find($request->id_status)->nama_status;
          $item = Barang::findOrFail($id);
-         // dd($item);
          $item->update($data);
 
         return redirect()->route('barang.index');

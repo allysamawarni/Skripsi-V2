@@ -105,14 +105,13 @@ class Stokcontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, $id)
-    // {
-    //     $data = $request->all();
-    //     $item = Stok::findOrFail($id);
-
-    //     $item->update($data);
-    //     return redirect()->route('stok.index');
-    // }
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+        $item = Barang::findOrFail($id);
+        $item->update($data);
+        return redirect()->route('stok.index');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -122,7 +121,7 @@ class Stokcontroller extends Controller
      */
     public function destroy($id)
     {
-        $data = Stok::findOrFail($id);
+        $data = Barang::findOrFail($id);
             $data->delete();
             return redirect()->route('stok.index');
     }

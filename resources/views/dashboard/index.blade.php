@@ -11,6 +11,7 @@
     </div>
   </div>
     <div class="row g-3 my-2">
+      @if(Auth::user()->getRoleNames()[0] != 'Ukm')
         <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                 <div class="text-center">
@@ -44,6 +45,13 @@
                 </div>
             </div>
         </div>
+      @else
+        <div class="col-lg-12 mx-auto">
+            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+          <h1 class="fw-light">Selamat Datang Di Sistem Management Inventaris</h1>
+        </div>
+        </div>
+      @endif
     </div>
 @endsection
 {{-- @push('script')

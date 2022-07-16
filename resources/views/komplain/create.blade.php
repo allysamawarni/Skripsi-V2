@@ -12,7 +12,7 @@
               @csrf
               <div class="form-group my-2">
                 <input type="text" class="form-control @error('id_user') is-invalid @enderror" placeholder="nama peminjam"
-                    id="id_user" name="id_user" value="{{Auth::user()->name}}" required>
+                    id="id_user" name="id_user" value="{{Auth::user()->name}}" required readOnly>
                     @error('id_user')
                         <div class="invalid-feedback">
                             {{ $message }}
