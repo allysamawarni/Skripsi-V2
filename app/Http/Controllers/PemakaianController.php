@@ -7,7 +7,7 @@ use App\Models\Pemakaian;
 use App\Models\User;
 use App\Models\Barang;
 use Yajra\DataTables\Facades\DataTables;
-
+use Auth;
 
 class PemakaianController extends Controller
 {
@@ -87,7 +87,13 @@ class PemakaianController extends Controller
     {
       $data = $request->all();
       $barang = Pemakaian::create($data);
-      return redirect()->route('pemakaian.index');
+      $user = Auth::user()->getRoleNames()[0];
+
+      if($user == 'Ukm'){
+        return redirect()->back();
+      }else{
+        return redirect()->route('pemakaian.index');
+      }
     }
 
     /**

@@ -39,13 +39,16 @@ class PembelianController extends Controller
                ->addColumn('aksi', function($item) {
                  $user = Auth::user()->getRoleNames()[0];
                  // dd($user == 'Admin');
-                 if($user == 'Ketua'){
+                 if($user == 'Ketua' && $item->assign_by == null){
                    return '
                      <div class="aksi d-flex align-items-center">
                          <div class="aksi-edit px-1">
-                             <a class="btn btn-success edit" href="'. route('pembelian.edit', $item->id) .'">
-                                 Terima
-                             </a>
+                           <form class="inline-block" action="'. route('pembelian.terima', $item->id) .'" method="POST">
+                               <button class="btn btn-success">
+                                   Terima
+                               </button>
+                                   '. method_field('post') . csrf_field() .'
+                           </form>
                          </div>
                          <div class="aksi-hapus">
                              <form class="inline-block" action="'. route('pembelian.destroy', $item->id) .'" method="POST">
@@ -57,7 +60,7 @@ class PembelianController extends Controller
                          </div>
                      </div>
                      ';
-                 } else {
+                 } else if($user == 'Admin') {
                      return '
                          <div class="aksi d-flex align-items-center">
                              <div class="aksi-edit px-1">
@@ -75,6 +78,16 @@ class PembelianController extends Controller
                              </div>
                          </div>
                      ';
+                 } else if($user == 'Ketua' && $item->assign_by != null){
+                   return '
+                   <div class="aksi d-flex align-items-center">
+                       <div class="aksi-edit px-1">
+                           <span class="btn btn-primari edit"">
+                               Disetujui
+                           </span>
+                       </div>
+                   </div>
+                   ';
                  }
              })
            ->rawColumns(['id','image_pembelian','aksi'])
@@ -169,5 +182,11 @@ class PembelianController extends Controller
          $item->delete();
 
          return redirect()->route('pembelian.index');
+    }
+
+    public function terima($id){
+       $item = Pembelian::findOrFail($id);
+       $item->update(['assign_by' => Auth::user()->id]);
+       return redirect()->route('pembelian.index');
     }
 }

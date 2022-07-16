@@ -64,7 +64,7 @@ class KomplainController extends Controller
     public function create()
     {
          $barang = Barang::all()->pluck('nama_barang', 'id_barang');
-      return view('komplain.create', compact('barang'));
+         return view('komplain.create', compact('barang'));
     }
 
     /**
@@ -79,7 +79,13 @@ class KomplainController extends Controller
         $data['id_user'] = Auth::user()->id;
 
         $barang = Komplain::create($data);
-        return redirect()->route('komplain.index');
+        $user = Auth::user()->getRoleNames()[0];
+
+        if($user == 'Ukm'){
+          return redirect()->back();
+        }else{
+          return redirect()->route('komplain.index');
+        }
     }
 
     /**

@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('/pembelian', PembelianController::class);
     Route::resource('/event', EventController::class);
     Route::post('/komplain/reply/{id}', 'App\Http\Controllers\KomplainController@reply')->name('komplain.reply');
+    Route::post('/pembelian/terima/{id}', 'App\Http\Controllers\PembelianController@terima')->name('pembelian.terima');
 });
 
 // Route::middleware(['auth:sanctum', 'verified'], ['role:ukm'])->group(function () {
