@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
+use Yajra\DataTables\Facades\DataTables;
 
 class EventController extends Controller
 {
@@ -13,6 +15,33 @@ class EventController extends Controller
      */
     public function index()
     {
+
+           if(request()->ajax()) {
+              $query = Event::orderBy('id', 'desc')->get();
+              return DataTables::of($query)
+                  ->addIndexColumn()
+                  ->addColumn('aksi', function($item) {
+              return '
+                  <div class="aksi d-flex align-items-center">
+                      <div class="aksi-edit px-1">
+                          <a class="btn btn-success edit" href="'. route('event.edit', $item->id) .'">
+                              edit
+                          </a>
+                      </div>
+                      <div class="aksi-hapus">
+                          <form class="inline-block" action="'. route('event.destroy', $item->id) .'" method="POST">
+                              <button class="btn btn-danger">
+                                  hapus
+                              </button>
+                                  '. method_field('delete') . csrf_field() .'
+                          </form>
+                      </div>
+                  </div>
+              ';
+
+          })
+              ->make();
+          }
         return view('event.index');
     }
 

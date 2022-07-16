@@ -5,8 +5,8 @@
     <div class="col-md-12">
       <div class="card">
           <div class="card-header d-flex justify-content-between">
-            <h3>Daftar Barang</h3>
-            <a href="{{ route('barang.create') }}" type="button" class="btn btn-primary">Tambah</a>
+            <h3>Daftar Event</h3>
+            <a href="{{ route('event.create') }}" type="button" class="btn btn-primary">Tambah</a>
           </div>
           <div class="card-body">
             <table class="table scroll-horizontal-vertical" id="crudTable">
@@ -45,10 +45,10 @@
                     sortable: false,
 
                 },
-                {
-                    data: 'id',
-                    name: 'id',
-                },
+                // {
+                //     data: 'id',
+                //     name: 'id',
+                // },
                 {
                     data: 'nama_event',
                     name: 'nama_event',
