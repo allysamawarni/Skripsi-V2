@@ -21,26 +21,27 @@ class EventController extends Controller
               return DataTables::of($query)
                   ->addIndexColumn()
                   ->addColumn('aksi', function($item) {
-              return '
-                  <div class="aksi d-flex align-items-center">
-                      <div class="aksi-edit px-1">
-                          <a class="btn btn-success edit" href="'. route('event.edit', $item->id) .'">
-                              edit
-                          </a>
-                      </div>
-                      <div class="aksi-hapus">
-                          <form class="inline-block" action="'. route('event.destroy', $item->id) .'" method="POST">
-                              <button class="btn btn-danger">
-                                  hapus
-                              </button>
-                                  '. method_field('delete') . csrf_field() .'
-                          </form>
-                      </div>
-                  </div>
-              ';
+                      return '
+                          <div class="aksi d-flex align-items-center">
+                              <div class="aksi-edit px-1">
+                                  <a class="btn btn-success edit" href="'. route('event.edit', $item->id) .'">
+                                      edit
+                                  </a>
+                              </div>
+                              <div class="aksi-hapus">
+                                  <form class="inline-block" action="'. route('event.destroy', $item->id) .'" method="POST">
+                                      <button class="btn btn-danger">
+                                          hapus
+                                      </button>
+                                          '. method_field('delete') . csrf_field() .'
+                                  </form>
+                              </div>
+                          </div>
+                      ';
 
-          })
-              ->make();
+                  })
+                  ->rawColumns(['id','aksi'])
+                ->make();
           }
         return view('event.index');
     }
@@ -52,7 +53,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('event.create');
     }
 
     /**
@@ -63,7 +64,9 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $barang = Event::create($data);
+        return redirect()->route('event.index');
     }
 
     /**
@@ -85,7 +88,8 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        //
+      $item = Event::find($id);
+        return view('event.edit', compact('item'));
     }
 
     /**
@@ -97,7 +101,12 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $data = $request->all();
+         $item = Event::findOrFail($id);
+         // dd($item);
+         $item->update($data);
+
+        return redirect()->route('event.index');
     }
 
     /**
@@ -108,6 +117,9 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $item = Event::findOrFail($id);
+      // dd($item);
+      $item->delete();
+      return redirect()->route('event.index');
     }
 }
