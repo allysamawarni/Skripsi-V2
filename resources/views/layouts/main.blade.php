@@ -61,15 +61,14 @@
                         class="fas fa-project-diagram me-2"></i>Status</a>
                 <a href="{{ route('stok.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('stok') ? 'active' : '' }}"><i
                         class="fas fa-paperclip me-2"></i>Stok</a>
-                <a href="{{ route('pemakaian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pemakaian') ? 'active' : '' }}"><i class="fas fa-shopping-cart me-2"></i>Pemakaian</a>
+                <a href="{{ route('pemakaian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pemakaian') ? 'active' : '' }}"><i class="fas fa-user-clock me-2"></i>Pemakaian</a>
                 <a href="{{ route('user.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('user') ? 'active' : '' }}"><i class="fas fa-user me-2"></i>User</a>
                 <a href="{{ route('komplain.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('komplain') ? 'active' : '' }}"><i class="fas fa-comment me-2"></i>Komplain</a>
-                <a href="{{ route('pembelian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pembelian') ? 'active' : '' }}"><i class="fas fa-comment me-2"></i>Pembelian</a>
+                <a href="{{ route('pembelian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pembelian') ? 'active' : '' }}"><i class="fas fa-shopping-cart me-2"></i>Pembelian</a>
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-gift me-2"></i>Products</a> --}}
-                {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i --}}
-                        {{-- class="fas fa-comment-dots me-2"></i>Chat</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="{{ route('event.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('event') ? 'active' : '' }}"><i class="fas fa-calendar me-2"></i>Event</a>
+                {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-map-marker-alt me-2"></i>Outlet</a> --}}
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                         class="fas fa-power-off me-2"></i>Logout</a> --}}

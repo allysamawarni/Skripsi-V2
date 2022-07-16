@@ -6,8 +6,8 @@
       Update data pemakaian
     </div>
     <div class="card-body">
-      <form action="{{ route('pemakaian.store') }}" method="POST" enctype="multipart/form-data">
-      @method('PUI')
+      <form action="{{ route('pemakaian.update', $item->id_pemakaian) }}" method="POST" enctype="multipart/form-data">
+      @method('PUT')
       @csrf
 
           <div class="form-group mt-2">
@@ -15,7 +15,7 @@
           <select name="id_user" id="id_user" class="form-control" required>
                   <option value="">Pilih User</option>
                   @foreach ($user as $key => $itemss)
-                      <option value="{{ $key }}">{{ $itemss }}</option>
+                      <option value="{{ $key }}" {{$item->id_user === $key ? 'selected' : null}}>{{ $itemss }}</option>
                   @endforeach
               </select>
               <span class="help-block with-errors"></span>
@@ -25,7 +25,7 @@
             <select name="id_barang" id="id_barang" class="form-control" required>
                   <option value="">Pilih Barang</option>
                   @foreach ($barang as $key => $items)
-                      <option value="{{ $key }}">{{ $items }}</option>
+                      <option value="{{ $key }}" {{$item->id_barang === $key ? 'selected' : null}}>{{ $items }}</option>
                   @endforeach
               </select>
               <span class="help-block with-errors"></span>

@@ -110,7 +110,7 @@ class PemakaianController extends Controller
     public function edit(Pemakaian $pemakaian)
     {
         $item = Pemakaian::findOrFail($pemakaian->id_pemakaian);
-         $user = User::all()->pluck('nama_user', 'id_user');
+         $user = User::all()->pluck('name', 'id');
          $barang = Barang::all()->pluck('nama_barang', 'id_barang');
         return view('pemakaian.edit', [
             'item' => $item,
@@ -128,7 +128,12 @@ class PemakaianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $data = $request->all();
+       $item = Pemakaian::findOrFail($id);
+       // dd($item);
+       $item->update($data);
+
+      return redirect()->route('pemakaian.index');
     }
 
     /**
