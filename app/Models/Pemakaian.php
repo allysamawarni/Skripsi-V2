@@ -11,14 +11,13 @@ class Pemakaian extends Model
 
     protected $table = 'pemakaian';
     protected $primaryKey = 'id_pemakaian';
-    protected $gyarded = [];
+    protected $guarded = [];
 
     protected $fillable = [
-        'id_pemakaian','id_user','nama_kegiatan','tgl_pinjam','tgl_pengembalian','jml_item'
+        'id_pemakaian','id_user','nama_kegiatan','tgl_pinjam','tgl_pengembalian','jml_item', 'id_barang', 'nama_peminjam'
     ];
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'id_user');
     }
 }
- 

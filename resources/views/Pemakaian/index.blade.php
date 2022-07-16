@@ -12,7 +12,9 @@
                 <tr>
                     <th>No</th>
                     <th>User</th>
+                    <th>Nama Peminjam</th>
                     <th>Nama Kegiatan</th>
+                    <th>Nama Barang</th>
                     <th>Tanggal Pinjam</th>
                     <th>Tanggal Pengembalian</th>
                     <th>Jumlah Item</th>
@@ -47,8 +49,16 @@
                     name: 'id_user',
                 },
                 {
+                  data:'nama_peminjam',
+                  name: 'nama_peminjam',
+                },
+                {
                     data: 'nama_kegiatan',
                     name: 'nama_kegiatan',
+                },
+                {
+                    data: 'nama_barang',
+                    name: 'nama_barang',
                 },
                 {
                     data: 'tgl_pinjam',

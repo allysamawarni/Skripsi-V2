@@ -29,7 +29,13 @@ class PemakaianController extends Controller
                 ->addColumn('id_user', function($item){
                   return $item->name;
                 })
-                ->editColumn('action', function ($item) {
+                ->addColumn('nama_barang', function($item){
+                  return $item->nama_barang;
+                })
+                ->addColumn('nama_peminjam', function($item){
+                  return $item->nama_peminjam;
+                })
+                ->editColumn('aksi', function ($item) {
                     return '
                         <div class="aksi d-flex align-items-center">
                             <div class="aksi-edit px-1">
@@ -49,7 +55,7 @@ class PemakaianController extends Controller
                     ';
 
                 })
-            ->rawColumns(['id_user','nama_user','aksi'])
+            ->rawColumns(['id_user', 'name', 'nama_peminjam', 'aksi'])
             ->make();
         }
 
@@ -105,10 +111,11 @@ class PemakaianController extends Controller
     {
         $item = Pemakaian::findOrFail($pemakaian->id_pemakaian);
          $user = User::all()->pluck('nama_user', 'id_user');
-
+         $barang = Barang::all()->pluck('nama_barang', 'id_barang');
         return view('pemakaian.edit', [
             'item' => $item,
-            'user' =>$user,
+            'user' => $user,
+            'barang' => $barang
         ]);
     }
 
@@ -132,6 +139,8 @@ class PemakaianController extends Controller
      */
     public function destroy($id)
     {
-        //
+           $item = Pemakaian::findOrFail($id);
+           $item->delete();
+          return redirect()->route('pemakaian.index');
     }
 }
