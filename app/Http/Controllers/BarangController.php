@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BarangRequest;
 use App\Models\Barang;
 use App\Models\Kategori;
+use App\Models\Status;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,9 +19,11 @@ class BarangController extends Controller
      */
     public function index()
     {
-         if(request()->ajax())
-        {
-            $query = Barang::orderBy('id_barang', 'desc')->get();
+         if(request()->ajax()) {
+            $query = Barang::with('status')->orderBy('id_barang', 'desc')->get();
+            foreach ($query as $value) {
+              $value->harga_barang = number_format($value->harga_barang);
+            }
             return DataTables::of($query)
                 ->addIndexColumn()
                 ->editColumn('id_kategori', function ($item) {
@@ -29,7 +32,9 @@ class BarangController extends Controller
                 ->editColumn('foto_barang', function($item){
                     return $item->foto_barang ? '<img src="'. Storage::url($item->foto_barang).'" style="max-height: 50px;" />' : '';
                 })
-
+                ->editColumn('status_barang', function ($item){
+                  return $item->status->nama_status;
+                })
                 ->addColumn('aksi', function($item) {
             return '
                 <div class="aksi d-flex align-items-center">
@@ -65,8 +70,10 @@ class BarangController extends Controller
     public function create()
     {
          $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
+         $status = Status::all()->pluck('nama_status', 'id_status');
         return view('barang.create', [
-            'kategori'=>$kategori
+            'kategori' => $kategori,
+            'status' => $status
         ]);
     }
 
@@ -79,9 +86,9 @@ class BarangController extends Controller
     public function store(BarangRequest $request)
     {
         $data = $request->all();
-        $data ['foto_barang'] = $request->file('foto_barang')->store('assets/barang','public');
-        Barang::create($data);
-
+        $data['foto_barang'] = $request->file('foto_barang')->store('assets/barang','public');
+        $data['status_barang'] = Status::find($request->id_status)->nama_status;
+        $barang = Barang::create($data);
         return redirect()->route('barang.index');
     }
 
@@ -107,9 +114,11 @@ class BarangController extends Controller
         $item = Barang::findOrFail($barang->id_barang);
          $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
 
+         $status = Status::all()->pluck('nama_status', 'id_status');
         return view('barang.edit', [
             'item' => $item,
             'kategori' =>$kategori,
+            'status' => $status
         ]);
     }
 
@@ -120,20 +129,18 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BarangRequest $request, Barang $barang)
+    public function update(Request $request, $id)
     {
          $data = $request->all();
-         if($request->foto_barang)
-         {
-            $data ['foto_barang'] = $request->file('foto_barang')->store('assets/barang','public');
-        
-         }
-        else
-        {
+         if($request->foto_barang) {
+            $data['foto_barang'] = $request->file('foto_barang')->store('assets/barang','public');
+         } else {
             unset($data['foto_barang']);
-        }
-        $item = Barang::findOrFail($barang->id_barang);
-        $item ->update($data);
+         }
+         $data['status_barang'] = Status::find($request->id_status)->nama_status;
+         $item = Barang::findOrFail($id);
+         // dd($item);
+         $item->update($data);
 
         return redirect()->route('barang.index');
     }

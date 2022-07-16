@@ -15,9 +15,7 @@
 
     <title>Paduan Suara Universitas Pancasila | Home</title>
 </head>
-
 <body>
-
     {{-- <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
         <div class="container">
             <a class="navbar-brand" href="#">PSUP</a>
@@ -43,10 +41,6 @@
             </div>
         </div>
     </nav> --}}
-
-
-
-
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-white" id="sidebar-wrapper">
@@ -55,7 +49,7 @@
             <div class="list-group list-group-flush my-3">
                 <a href="{{ route('dashboard') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text {{ request()->is('/') ? 'active' : '' }}"><i
-                        class="fas fa-tachometer-alt me-2"></i>Dashboard</a>
+                        class="fas fa-tachometer-alt me-2"></i>Beranda</a>
                 <a href="{{ route('kategori.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('kategori') ? 'active' : '' }}"><i
                         class="fas fa-project-diagram me-2"></i>Kategori</a>
@@ -63,20 +57,22 @@
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('barang') ? 'active' : '' }}"><i
                         class="fas fa-chart-line me-2"></i>Barang</a>
                 <a href="{{ route('status.index') }}"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('status') ? 'active' : '' }}"><i
                         class="fas fa-project-diagram me-2"></i>Status</a>
-                <a href="{{ route('stok.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                <a href="{{ route('stok.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('stok') ? 'active' : '' }}"><i
                         class="fas fa-paperclip me-2"></i>Stok</a>
-                <a href="{{ route('pemakaian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-shopping-cart me-2"></i>Pemakaian</a>
+                <a href="{{ route('pemakaian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pemakaian') ? 'active' : '' }}"><i class="fas fa-shopping-cart me-2"></i>Pemakaian</a>
+                <a href="{{ route('user.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('user') ? 'active' : '' }}"><i class="fas fa-user me-2"></i>User</a>
+                <a href="{{ route('komplain.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('komplain') ? 'active' : '' }}"><i class="fas fa-comment me-2"></i>Komplain</a>
+                <a href="{{ route('pembelian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pembelian') ? 'active' : '' }}"><i class="fas fa-comment me-2"></i>Pembelian</a>
+                {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
+                        class="fas fa-gift me-2"></i>Products</a> --}}
+                {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i --}}
+                        {{-- class="fas fa-comment-dots me-2"></i>Chat</a>
                 <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-gift me-2"></i>Products</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-comment-dots me-2"></i>Chat</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
-                        class="fas fa-map-marker-alt me-2"></i>Outlet</a>
-                <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
-                        class="fas fa-power-off me-2"></i>Logout</a>
+                        class="fas fa-map-marker-alt me-2"></i>Outlet</a> --}}
+                {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
+                        class="fas fa-power-off me-2"></i>Logout</a> --}}
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -99,18 +95,16 @@
 
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                type="button" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>{{ auth()->user()->name }}
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                            class="fi fi-rr-sign-out"></i>keluar</a>
-                                    <form action="{{ route('logout') }}" method="post" id="logout-form"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </ul>
+                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown" type="button" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user me-2"></i>{{ auth()->user()->name }}
+                          </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Keluar</a>
+                                <form action="{{ route('logout') }}" method="post" id="logout-form"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                            </ul>
                         </li>
                     </ul>
                 </div>

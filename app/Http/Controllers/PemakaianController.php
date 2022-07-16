@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pemakaian;
 use App\Models\User;
+use App\Models\Barang;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -19,29 +20,35 @@ class PemakaianController extends Controller
     {
         if(request()->ajax())
         {
-            $query = Pemakaian::orderBy('id_pemakaian', 'desc')->get();
+            $query = Pemakaian::join('users', 'users.id', 'pemakaian.id_user')
+                      ->join('barang', 'barang.id_barang', 'pemakaian.id_barang')
+                      ->select('pemakaian.*', 'barang.nama_barang', 'users.name')
+                      ->orderBy('id_pemakaian', 'desc')->get();
             return DataTables::of($query)
                 ->addIndexColumn()
-                ->editColumn('id_user', function ($item) {
-            return '
-                <div class="aksi d-flex align-items-center">
-                    <div class="aksi-edit px-1">
-                        <a class="btn btn-success edit" href="'. route('pemakaian.edit', $item->id_pemakaian) .'">
-                            edit
-                        </a>
-                    </div>
-                    <div class="aksi-hapus">
-                        <form class="inline-block" action="'. route('pemakaian.destroy', $item->id_pemakaian) .'" method="POST">
-                            <button class="btn btn-danger">
-                                hapus
-                            </button>
-                                '. method_field('delete') . csrf_field() .'
-                        </form>
-                    </div>
-                </div>
-            ';
+                ->addColumn('id_user', function($item){
+                  return $item->name;
+                })
+                ->editColumn('action', function ($item) {
+                    return '
+                        <div class="aksi d-flex align-items-center">
+                            <div class="aksi-edit px-1">
+                                <a class="btn btn-success edit" href="'. route('pemakaian.edit', $item->id_pemakaian) .'">
+                                    edit
+                                </a>
+                            </div>
+                            <div class="aksi-hapus">
+                                <form class="inline-block" action="'. route('pemakaian.destroy', $item->id_pemakaian) .'" method="POST">
+                                    <button class="btn btn-danger">
+                                        hapus
+                                    </button>
+                                        '. method_field('delete') . csrf_field() .'
+                                </form>
+                            </div>
+                        </div>
+                    ';
 
-        })
+                })
             ->rawColumns(['id_user','nama_user','aksi'])
             ->make();
         }
@@ -56,9 +63,11 @@ class PemakaianController extends Controller
      */
     public function create()
     {
-         $user = User::all()->pluck('nama_user', 'id_user');
+        $user = User::all()->pluck('name', 'id');
+        $barang = Barang::all()->pluck('nama_barang', 'id_barang');
         return view('pemakaian.create', [
-            'user'=>$user
+            'user'=>$user,
+            'barang' => $barang
         ]);
     }
 
@@ -70,7 +79,9 @@ class PemakaianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $data = $request->all();
+      $barang = Pemakaian::create($data);
+      return redirect()->route('pemakaian.index');
     }
 
     /**

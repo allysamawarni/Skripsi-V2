@@ -20,7 +20,7 @@ return new class extends Migration
                     ->on('kategori')
                     ->onUpdate('restrict')
                     ->onDelete('cascade');
-                    $table->foreignId('id_status')
+           $table->foreignId('id_status')
                     ->references('id_status')
                     ->on('status')
                     ->onUpdate('restrict')

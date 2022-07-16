@@ -1,10 +1,13 @@
 @extends('layouts.main')
 
 @section('container')
-    <a href="{{ route('pemakaian.create') }}" type="button" class="btn btn-primary">Tambah</a>
-
-    <div class="box-body table-responsive mt-5">
-        <table class="table scroll-horizontal-vertical" id="crudTable">
+  <div class="card">
+      <div class="card-header d-flex justify-content-between">
+        <h3>Daftar Pemakaian Barang</h3>
+        <a href="{{ route('pemakaian.create') }}" type="button" class="btn btn-primary">Tambah</a>
+      </div>
+      <div class="card-body">
+        <table class="table" id="crudTable">
             <thead>
                 <tr>
                     <th>No</th>
@@ -18,7 +21,8 @@
             </thead>
             <tbody></tbody>
         </table>
-    </div>
+      </div>
+  </div>
 @endsection
 @push('script')
     <script>

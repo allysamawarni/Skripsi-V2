@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Stok;
+use App\Models\Barang;
+use App\Models\Status;
+use Yajra\DataTables\Facades\DataTables;
 
 use Illuminate\Http\Request;
 
-class StokController extends Controller
+class Stokcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +17,32 @@ class StokController extends Controller
      */
     public function index()
     {
-        //
+        if(request()->ajax())
+        {
+            $query = Barang::orderBy('id_barang', 'desc')->get();
+            return DataTables::of($query)
+                ->addIndexColumn()
+                ->addColumn('aksi', function($item) {
+                    return '
+                        <div class="aksi d-flex align-items-center">
+                            <div class="aksi-edit px-1">
+                                <a class="btn btn-success edit" href="'. route('stok.edit', $item->id_barang) .'">
+                                    Stok
+                                </a>
+                            </div>
+                        </div>
+                    ';
+
+                })
+                ->addColumn('status_barang', function($item){
+                  $status = Status::find($item->id_status);
+                  return $status->nama_status;
+                })
+            ->rawColumns(['nama_barang', 'stok_barang', 'status_barang', 'aksi'])
+            ->make();
+        }
+
+        return view('stok.index');
     }
 
     /**
@@ -23,7 +52,10 @@ class StokController extends Controller
      */
     public function create()
     {
-        //
+        $barang = Barang::all()->pluck('nama_barang', 'id_barang');
+        return view('stok.create', [
+            'barang'=>$barang
+        ]);
     }
 
     /**
@@ -34,7 +66,9 @@ class StokController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        Stok::create($data);
+        return redirect()->route('stok.index');
     }
 
     /**
@@ -56,7 +90,12 @@ class StokController extends Controller
      */
     public function edit($id)
     {
-        //
+        $item = Barang::findOrFail($id);
+        $barang = Barang::all()->pluck('nama_barang', 'id_barang');
+        return view('stok.edit', [
+            'item' => $item,
+            'barang' => $barang,
+        ]);
     }
 
     /**
@@ -66,10 +105,14 @@ class StokController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     $data = $request->all();
+    //     $item = Stok::findOrFail($id);
+
+    //     $item->update($data);
+    //     return redirect()->route('stok.index');
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -79,6 +122,8 @@ class StokController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Stok::findOrFail($id);
+            $data->delete();
+            return redirect()->route('stok.index');
     }
 }

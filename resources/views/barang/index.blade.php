@@ -1,26 +1,35 @@
 @extends('layouts.main')
 
 @section('container')
-    <a href="{{ route('barang.create') }}" type="button" class="btn btn-primary">Tambah</a>
-
-    <div class="box-body table-responsive mt-5">
-        <table class="table scroll-horizontal-vertical" id="crudTable">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Kategori</th>
-                    <th>Nama</th>
-                    <th>Stok</th>
-                    <th>Tahun</th>
-                    <th>Harga</th>
-                    <th>Status</th>
-                    <th>Gambar</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+          <div class="card-header d-flex justify-content-between">
+            <h3>Daftar Barang</h3>
+            <a href="{{ route('barang.create') }}" type="button" class="btn btn-primary">Tambah</a>
+          </div>
+          <div class="card-body">
+            <table class="table scroll-horizontal-vertical" id="crudTable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Kategori</th>
+                        <th>Nama</th>
+                        <th>Stok</th>
+                        <th>Tahun</th>
+                        <th>Harga</th>
+                        <th>Status</th>
+                        <th>Gambar</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+          </div>
+      </div>
     </div>
+  </div>
+
 @endsection
 @push('script')
     <script>

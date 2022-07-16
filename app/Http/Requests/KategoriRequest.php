@@ -25,7 +25,7 @@ class KategoriRequest extends FormRequest
     {
         return [
             'nama_kategori' => [
-            'required', 'unique:kategori', 'string'
+              'required', 'unique:kategori', 'string'
             ]
         ];
     }

@@ -11,7 +11,7 @@
     </div>
   </div>
     <div class="row g-3 my-2">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                 <div class="text-center">
                     <h3>{{$barang}}</h3>
@@ -22,12 +22,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
                 <div class="text-center">
                     <h3>{{$kategori}}</h3>
                     <p>Kategori</p>
                     <a href="{{route('kategori.index')}}" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                      lihat semua
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div class="text-center">
+                    <h3>{{$komplain}}</h3>
+                    <p>Komplain</p>
+                    <a href="{{route('komplain.index')}}" class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                       lihat semua
                     </a>
                 </div>
