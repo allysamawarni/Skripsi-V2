@@ -37,24 +37,45 @@ class PembelianController extends Controller
                    return number_format($item->harga_pembelian);
                })
                ->addColumn('aksi', function($item) {
-                 return '
+                 $user = Auth::user()->getRoleNames()[0];
+                 // dd($user == 'Admin');
+                 if($user == 'Ketua'){
+                   return '
                      <div class="aksi d-flex align-items-center">
                          <div class="aksi-edit px-1">
                              <a class="btn btn-success edit" href="'. route('pembelian.edit', $item->id) .'">
-                                 edit
+                                 Terima
                              </a>
                          </div>
                          <div class="aksi-hapus">
                              <form class="inline-block" action="'. route('pembelian.destroy', $item->id) .'" method="POST">
                                  <button class="btn btn-danger">
-                                     hapus
+                                     Tolak
                                  </button>
                                      '. method_field('delete') . csrf_field() .'
                              </form>
                          </div>
                      </div>
-                 ';
-
+                     ';
+                 } else {
+                     return '
+                         <div class="aksi d-flex align-items-center">
+                             <div class="aksi-edit px-1">
+                                 <a class="btn btn-success edit" href="'. route('pembelian.edit', $item->id) .'">
+                                     edit
+                                 </a>
+                             </div>
+                             <div class="aksi-hapus">
+                                 <form class="inline-block" action="'. route('pembelian.destroy', $item->id) .'" method="POST">
+                                     <button class="btn btn-danger">
+                                         hapus
+                                     </button>
+                                         '. method_field('delete') . csrf_field() .'
+                                 </form>
+                             </div>
+                         </div>
+                     ';
+                 }
              })
            ->rawColumns(['id','image_pembelian','aksi'])
            ->make();

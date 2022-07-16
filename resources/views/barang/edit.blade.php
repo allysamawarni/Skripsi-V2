@@ -8,7 +8,7 @@
           <h3>Update Data Barang</h3>
         </div>
         <div class="card-body">
-          <form action="{{ route('barang.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('barang.update', $item->id_barang) }}" method="POST" enctype="multipart/form-data">
               @method('PUT')
               @csrf
               <div class="form-group py-2">
