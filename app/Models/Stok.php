@@ -10,9 +10,6 @@ class Stok extends Model
     use HasFactory;
     protected $table = 'stok';
     protected $primaryKey = 'id_stok';
-    protected $gyarded = [];
+    protected $guarded = [];
 
-    protected $fillable = [
-        'jumlah_stok'
-    ];
 }

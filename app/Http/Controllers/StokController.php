@@ -19,26 +19,12 @@ class Stokcontroller extends Controller
     {
         if(request()->ajax())
         {
-            $query = Barang::orderBy('id_barang', 'desc')->get();
+            $query = Stok::join('barang', 'barang.id_barang', 'stok.id_barang')
+                      ->select('barang.nama_barang', 'stok.*')
+                      ->orderBy('id_stok', 'desc')->get();
             return DataTables::of($query)
                 ->addIndexColumn()
-                ->addColumn('aksi', function($item) {
-                    return '
-                        <div class="aksi d-flex align-items-center">
-                            <div class="aksi-edit px-1">
-                                <a class="btn btn-success edit" href="'. route('stok.edit', $item->id_barang) .'">
-                                    Stok
-                                </a>
-                            </div>
-                        </div>
-                    ';
-
-                })
-                ->addColumn('status_barang', function($item){
-                  $status = Status::find($item->id_status);
-                  return $status->nama_status;
-                })
-            ->rawColumns(['nama_barang', 'stok_barang', 'status_barang', 'aksi'])
+            ->rawColumns(['nama_barang', 'jumlah_stok', 'ketrangan'])
             ->make();
         }
 
@@ -54,7 +40,7 @@ class Stokcontroller extends Controller
     {
         $barang = Barang::all()->pluck('nama_barang', 'id_barang');
         return view('stok.create', [
-            'barang'=>$barang
+            'barang' => $barang
         ]);
     }
 
@@ -64,9 +50,11 @@ class Stokcontroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $data = $request->all();
+        $barang = Barang::find($request->id_barang);
+        $barang->stok_barang = $request->jumlah_stok;
+        $barang->save();
         Stok::create($data);
         return redirect()->route('stok.index');
     }

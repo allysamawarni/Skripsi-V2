@@ -17,7 +17,8 @@
                         <th>Nama</th>
                         <th>Stok</th>
                         <th>Tahun</th>
-                        <th>Harga</th>
+                        <th>Harga Beli</th>
+                        <th>Harga Penyusutan</th>
                         <th>Status</th>
                         <th>Gambar</th>
                         <th>Aksi</th>
@@ -36,7 +37,13 @@
         let datatable = $('#crudTable').DataTable({
             ordering: true,
             searchable: true,
-
+            dom: 'Bfrtip',
+            // autoFill: true,
+            buttons: [
+                'colvis',
+                'csv',
+                'excel'
+            ],
             ajax: {
                 url: '{!! url()->current() !!}',
             },
@@ -68,6 +75,10 @@
                 {
                     data: 'harga_barang',
                     name: 'harga_barang',
+                },
+                {
+                  data: 'penyusutan',
+                  name: 'penyusutan'
                 },
                 {
                     data: 'status_barang',

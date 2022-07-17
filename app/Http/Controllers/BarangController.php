@@ -9,6 +9,7 @@ use App\Models\Kategori;
 use App\Models\Status;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class BarangController extends Controller
 {
@@ -22,6 +23,7 @@ class BarangController extends Controller
          if(request()->ajax()) {
             $query = Barang::with('status')->orderBy('id_barang', 'desc')->get();
             foreach ($query as $value) {
+              $value->harga_beli = $value->harga_barang;
               $value->harga_barang = number_format($value->harga_barang);
             }
             return DataTables::of($query)
@@ -35,28 +37,37 @@ class BarangController extends Controller
                 ->editColumn('status_barang', function ($item){
                   return $item->status->nama_status;
                 })
+                ->editColumn('penyusutan', function($item){
+                  $tahunbarang = $item->tahun_barang;
+                  $now = Carbon::now();
+                  for($i=$tahunbarang;$i<=$now->year;$i++){
+                      $penyusutan =   ((Int) $item->harga_beli)*10/100;
+                      $harga_barang = (Int) $item->harga_beli - $penyusutan;
+                  }
+                  return number_format($harga_barang);
+                })
                 ->addColumn('aksi', function($item) {
-            return '
-                <div class="aksi d-flex align-items-center">
-                    <div class="aksi-edit px-1">
-                        <a class="btn btn-success edit" href="'. route('barang.edit', $item->id_barang) .'">
-                            edit
-                        </a>
-                    </div>
-                    <div class="aksi-hapus">
-                        <form class="inline-block" action="'. route('barang.destroy', $item->id_barang) .'" method="POST">
-                            <button class="btn btn-danger">
-                                hapus
-                            </button>
-                                '. method_field('delete') . csrf_field() .'
-                        </form>
-                    </div>
-                </div>
-            ';
+                    return '
+                        <div class="aksi d-flex align-items-center">
+                            <div class="aksi-edit px-1">
+                                <a class="btn btn-success edit" href="'. route('barang.edit', $item->id_barang) .'">
+                                    edit
+                                </a>
+                            </div>
+                            <div class="aksi-hapus">
+                                <form class="inline-block" action="'. route('barang.destroy', $item->id_barang) .'" method="POST">
+                                    <button class="btn btn-danger">
+                                        hapus
+                                    </button>
+                                        '. method_field('delete') . csrf_field() .'
+                                </form>
+                            </div>
+                        </div>
+                    ';
 
-        })
-            ->rawColumns(['id_kategori','foto_barang','aksi'])
-            ->make();
+                })
+                ->rawColumns(['id_kategori','foto_barang','aksi'])
+                ->make();
         }
 
         return view('barang.index');

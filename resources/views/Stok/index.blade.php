@@ -4,7 +4,7 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between">
       <h3>Stok Barang</h3>
-      {{-- <a href="{{ route('stok.create') }}" type="button" class="btn btn-primary">Tambah</a> --}}
+      <a href="{{ route('stok.create') }}" type="button" class="btn btn-primary">Tambah</a>
     </div>
     <div class="card-body">
       <table class="table scroll-horizontal-vertical" id="crudTable">
@@ -13,8 +13,7 @@
                 <th>No</th>
                 <th>Nama Barang</th>
                 <th>Jumlah Stok</th>
-                <th>Status</th>
-                <th>Aksi</th>
+                <th>Keterangan</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -46,22 +45,22 @@
                     name: 'nama_barang',
                 },
                 {
-                    data: 'stok_barang',
-                    name: 'stok_barang',
+                    data: 'jumlah_stok',
+                    name: 'jumlah_stok',
                 },
                 {
-                    data: 'status_barang',
-                    name: 'status_barang',
+                    data: 'keterangan',
+                    name: 'keterangan',
                 },
-                {
-                    data: 'aksi',
-                    name: 'aksi',
-                    width: '5%',
-
-                    orderable: false,
-                    searchable: false,
-                    sortable: false
-                },
+                // {
+                //     data: 'aksi',
+                //     name: 'aksi',
+                //     width: '5%',
+                //
+                //     orderable: false,
+                //     searchable: false,
+                //     sortable: false
+                // },
             ]
         });
     </script>

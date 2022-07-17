@@ -48,13 +48,76 @@
       @else
         <div class="col-lg-12 mx-auto">
             <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-          <h1 class="fw-light">Selamat Datang Di Sistem Management Inventaris</h1>
+              <h1 class="fw-light">Sistem Informasi Inventaris Paduan Suara Universitas Pancasila</h1>
+            </div>
         </div>
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              History Pemakaian Saya
+            </div>
+            <div class="card-body">
+              <table class="table" id="crudTable">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th>User</th>
+                          <th>Nama Peminjam</th>
+                          <th>Nama Kegiatan</th>
+                          <th>Nama Barang</th>
+                          <th>Tanggal Pinjam</th>
+                          <th>Tanggal Pengembalian</th>
+                          <th>Jumlah Item</th>
+                      </tr>
+                  </thead>
+                  <tbody></tbody>
+              </table>
+            </div>
+          </div>
         </div>
+        @php($komplain = App\Models\Komplain::where('id_user', Auth::user()->id)->first())
+        @if($komplain)
+          @php($balasan = App\Models\Komplain::where('parent_id', $komplain->id)->first())
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                Komplain Saya
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    Nama Barang
+                  </div>
+                  <div class="col-md-10">
+                    <strong>
+                      {{$komplain->barang->nama_barang}}
+                    </strong>
+                  </div>
+                  <div class="col-md-2">
+                    Pesan
+                  </div>
+                  <div class="col-md-10">
+                    <strong>
+                      {{$komplain->pesan}}
+                    </strong>
+                  </div>
+                  <div class="col-md-2">
+                    Balasan
+                  </div>
+                  <div class="col-md-10">
+                    <strong>
+                      {{$balasan && $balasan->pesan}}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        @endif
       @endif
     </div>
 @endsection
-{{-- @push('script')
+@push('script')
     <script>
         let datatable = $('#crudTable').DataTable({
             ordering: true,
@@ -73,20 +136,43 @@
 
                 },
                 {
-                    data: 'nama_kategori',
-                    name: 'nama_kategori',
+                    data: 'id_user',
+                    name: 'id_user',
                 },
-
                 {
-                    data: 'aksi',
-                    name: 'aksi',
-                    width: '5%',
-
-                    orderable: false,
-                    searchable: false,
-                    sortable: false
+                  data:'nama_peminjam',
+                  name: 'nama_peminjam',
                 },
+                {
+                    data: 'nama_kegiatan',
+                    name: 'nama_kegiatan',
+                },
+                {
+                    data: 'nama_barang',
+                    name: 'nama_barang',
+                },
+                {
+                    data: 'tgl_pinjam',
+                    name: 'tgl_pinjam',
+                },
+                {
+                    data: 'tgl_pengembalian',
+                    name: 'tgl_pengembalian',
+                },
+                {
+                    data: 'jml_item',
+                    name: 'jml_item',
+                },
+                // {
+                //     data: 'aksi',
+                //     name: 'aksi',
+                //     width: '5%',
+                //
+                //     orderable: false,
+                //     searchable: false,
+                //     sortable: false
+                // },
             ]
         });
     </script>
-@endpush --}}
+@endpush
