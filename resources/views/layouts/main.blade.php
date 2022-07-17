@@ -11,6 +11,9 @@
     {{-- datatable --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/autofill/2.4.0/css/autoFill.dataTables.min.css">
+
     <link rel="stylesheet" href="{{ url('frontend/style/styles.css') }}" />
 
     <title>Paduan Suara Universitas Pancasila | Home</title>
@@ -48,10 +51,10 @@
                     class="fas fa fa-music me-2"></i>PSUP</div>
             <div class="list-group list-group-flush my-3">
               @php($user = Auth::user()->getRoleNames()[0])
-              @if($user == 'Admin' || $user == 'Ketua')
                 <a href="{{ route('dashboard') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text {{ request()->is('/') ? 'active' : '' }}"><i
                         class="fas fa-tachometer-alt me-2"></i>Beranda</a>
+              @if($user == 'Admin' || $user == 'Ketua')
                 <a href="{{ route('kategori.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('kategori') ? 'active' : '' }}"><i
                         class="fas fa-project-diagram me-2"></i>Kategori</a>
@@ -138,6 +141,11 @@
 
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/autofill/2.4.0/js/dataTables.autoFill.min.js"></script>
+
     <script>
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");

@@ -23,24 +23,24 @@ class KomplainController extends Controller
                           ->join('users', 'users.id', 'komplains.id_user')
                           ->where('parent_id', NULL)
                           ->select('komplains.*', 'users.name')
-                          ->orderBy('komplains.id', 'asc')->get();
+                          ->orderBy('komplains.id_komplain', 'asc')->get();
                           // dd($query);
               return DataTables::of($query)
                   ->addIndexColumn()
                   ->addColumn('nama_barang', function($item){
                     // dd($item->barang);
-                    return $item->barang->nama_barang;
+                    return $item->barang  ? $item->barang->nama_barang : 'DELETED';
                   })
                   ->editColumn('aksi', function ($item) {
                         return '
                             <div class="aksi d-flex align-items-center">
                                 <div class="aksi-edit px-1">
-                                    <a class="btn btn-success edit" href="'. route('komplain.show', $item->id) .'">
+                                    <a class="btn btn-success edit" href="'. route('komplain.show', $item->id_komplain) .'">
                                         Lihat
                                     </a>
                                 </div>
                                 <div class="aksi-hapus">
-                                    <form class="inline-block" action="'. route('komplain.destroy', $item->id) .'" method="POST">
+                                    <form class="inline-block" action="'. route('komplain.destroy', $item->id_komplain) .'" method="POST">
                                         <button class="btn btn-danger">
                                             Hapus
                                         </button>
@@ -98,7 +98,7 @@ class KomplainController extends Controller
     {
       $komplain = Komplain::with('barang')//join('barang', 'barang.id_barang', 'komplains.id')
                   ->join('users', 'users.id', 'komplains.id_user')
-                  ->where('komplains.id', $id)
+                  ->where('komplains.id_komplain', $id)
                   ->select('komplains.*', 'users.name')
                   ->first();
         return view('komplain.show', compact('komplain'));

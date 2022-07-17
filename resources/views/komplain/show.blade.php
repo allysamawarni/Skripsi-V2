@@ -20,7 +20,7 @@
           </div>
           <div class="col-md-10">
             <strong>
-              {{$komplain->barang->nama_barang}}
+              {{$komplain->barang ? $komplain->barang->nama_barang : 'DELETED'}}
             </strong>
           </div>
           <div class="col-md-2">
@@ -34,7 +34,7 @@
           <div class="col-md-12 mt-5">
 
           </div>
-          <form method="post" action="{{route('komplain.reply', $komplain->id)}}">
+          <form method="post" action="{{route('komplain.reply', $komplain->id_komplain)}}">
             @csrf
             <div class="col-md-12">
               <textarea class="form-control @error('pesan') is-invalid @enderror" placeholder="Balas Pesan Komplain" id="pesan" name="pesan" value="{{ old('pesan') ? old('pesan') : '' }}" required></textarea>
