@@ -10,11 +10,8 @@ class Barang extends Model
      use HasFactory;
     protected $table = 'barang';
     protected $primaryKey = 'id_barang';
-    protected $gyarded = [];
+    protected $guarded = [];
 
-    protected $fillable = [
-        'id_kategori','id_status','nama_barang','stok_barang','tahun_barang','harga_barang','status_barang','foto_barang'
-    ];
     public function kategori() {
         return $this->hasOne(Kategori::class, 'id_kategori', 'id_kategori');
     }

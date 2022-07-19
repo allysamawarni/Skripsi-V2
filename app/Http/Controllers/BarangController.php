@@ -38,13 +38,10 @@ class BarangController extends Controller
                   return $item->status->nama_status;
                 })
                 ->editColumn('penyusutan', function($item){
-                  $tahunbarang = $item->tahun_barang;
-                  $now = Carbon::now();
-                  for($i=$tahunbarang;$i<=$now->year;$i++){
-                      $penyusutan =   ((Int) $item->harga_beli)*10/100;
-                      $harga_barang = (Int) $item->harga_beli - $penyusutan;
+                  if($item->nilai_residu != null || $item->umur_barang != null){
+                    $penyusutan = ((Int) $item->harga_beli - (Int) $item->nilai_residu) / (Int)$item->umur_barang;
                   }
-                  return number_format($harga_barang);
+                  return $item->nilai_residu || $item->umur_barang ? number_format($penyusutan) : 0;
                 })
                 ->addColumn('aksi', function($item) {
                     return '
@@ -98,7 +95,6 @@ class BarangController extends Controller
     {
         $data = $request->all();
         $data['foto_barang'] = $request->file('foto_barang')->store('assets/barang','public');
-        $data['status_barang'] = Status::find($request->id_status)->nama_status;
         $barang = Barang::create($data);
         return redirect()->route('barang.index');
     }
@@ -147,7 +143,6 @@ class BarangController extends Controller
          } else {
             unset($data['foto_barang']);
          }
-         $data['status_barang'] = Status::find($request->id_status)->nama_status;
          $item = Barang::findOrFail($id);
          $item->update($data);
 

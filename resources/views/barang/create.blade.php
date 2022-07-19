@@ -19,7 +19,6 @@
                   </select>
                   <span class="help-block with-errors"></span>
               </div>
-
               <div class="form-group py-2">
                   <input type="text" class="form-control @error('nama_barang') is-invalid @enderror" placeholder="Nama barang"
                       id="nama_barang" name="nama_barang" value="{{ old('nama_barang') }}">
@@ -29,7 +28,6 @@
                       </div>
                   @enderror
               </div>
-
               <div class="form-group py-2">
                   <input type="number" class="form-control @error('stok_barang') is-invalid @enderror" placeholder="Stok barang"
                       id="stok_barang" name="stok_barang" value="{{ old('stok_barang') }}">
@@ -39,7 +37,6 @@
                       </div>
                   @enderror
               </div>
-
               <div class="form-group py-2">
                   <input type="taxt" class="form-control @error('tahun_barang') is-invalid @enderror"
                       placeholder="Tahun barang" id="tahun_barang" name="tahun_barang" value="{{ old('tahun_barang') }}">
@@ -49,9 +46,8 @@
                       </div>
                   @enderror
               </div>
-
               <div class="form-group py-2">
-                  <input type="text" class="form-control @error('harga_barang') is-invalid @enderror"
+                  <input type="number" class="form-control @error('harga_barang') is-invalid @enderror"
                       placeholder="Harga barang" id="harga_barang" name="harga_barang" value="{{ old('harga_barang') }}">
                   @error('harga_barang')
                       <div class="invalid-feedback">
@@ -59,7 +55,24 @@
                       </div>
                   @enderror
               </div>
-
+              <div class="form-group py-2">
+                  <input type="number" class="form-control @error('nilai_residu') is-invalid @enderror"
+                      placeholder="Nilai Residu" id="nilai_residu" name="nilai_residu" value="{{ old('nilai_residu') }}" required>
+                  @error('nilai_residu')
+                      <div class="invalid-feedback">
+                          {{ $message }}
+                      </div>
+                  @enderror
+              </div>
+              <div class="form-group py-2">
+                  <input type="number" class="form-control @error('umur_barang') is-invalid @enderror"
+                      placeholder="Umur Ekonomis" id="umur_barang" name="umur_barang" value="{{ old('umur_barang') }}" required>
+                  @error('umur_barang')
+                      <div class="invalid-feedback">
+                          {{ $message }}
+                      </div>
+                  @enderror
+              </div>
               <div class="form-group py-2">
                   <select name="id_status" id="id_status" class="form-control" required>
                       <option value="">Pilih Status Barang</option>
@@ -68,7 +81,6 @@
                       @endforeach
                   </select>
               </div>
-
               <div class="form-group py-2">
                   <input required type="file" class="form-control @error('foto_barang') is-invalid @enderror"
                       placeholder="Foto barang" id="foto_barang" name="foto_barang" value="{{ old('foto_barang') }}">

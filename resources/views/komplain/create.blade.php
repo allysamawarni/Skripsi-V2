@@ -8,6 +8,11 @@
           <h3>Buat Data Komplain</h3>
         </div>
         <div class="card-body">
+            @if(session()->has('message'))
+                <div class="alert alert-success">
+                    {{ session()->get('message') }}
+                </div>
+            @endif
           <form action="{{ route('komplain.store') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-group my-2">
@@ -24,7 +29,7 @@
                   <select name="id_barang" id="id_barang" class="form-control" required>
                         <option value="">Pilih Barang</option>
                         @foreach ($barang as $key => $item)
-                            <option value="{{ $key }}">{{ $item }}</option>
+                            <option value="{{ $item->id_barang }}">{{ $item->nama_barang }}</option>
                         @endforeach
                   </select>
                   <span class="help-block with-errors"></span>

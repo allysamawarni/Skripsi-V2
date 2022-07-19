@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Komplain;
 use App\Models\Barang;
+use App\Models\Pemakaian;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 
@@ -19,16 +20,14 @@ class KomplainController extends Controller
 
           if(request()->ajax())
           {
-              $query = Komplain::with('barang')//join('barang', 'barang.id_barang', 'komplains.id')
+              $query = Komplain::with('barang')
                           ->join('users', 'users.id', 'komplains.id_user')
                           ->where('parent_id', NULL)
                           ->select('komplains.*', 'users.name')
                           ->orderBy('komplains.id_komplain', 'asc')->get();
-                          // dd($query);
               return DataTables::of($query)
                   ->addIndexColumn()
                   ->addColumn('nama_barang', function($item){
-                    // dd($item->barang);
                     return $item->barang  ? $item->barang->nama_barang : 'DELETED';
                   })
                   ->editColumn('aksi', function ($item) {
@@ -63,7 +62,11 @@ class KomplainController extends Controller
      */
     public function create()
     {
-         $barang = Barang::all()->pluck('nama_barang', 'id_barang');
+        $barang = Pemakaian::join('barang', 'barang.id_barang', 'pemakaian.id_barang')
+                    ->where('pemakaian.id_user', Auth::user()->id)
+                    ->select('barang.nama_barang', 'barang.id_barang')
+                    ->groupBy('pemakaian.id_barang')
+                    ->get();
          return view('komplain.create', compact('barang'));
     }
 
@@ -82,8 +85,8 @@ class KomplainController extends Controller
         $user = Auth::user()->getRoleNames()[0];
 
         if($user == 'Ukm'){
-          return redirect()->back();
-        }else{
+          return redirect()->back()->with('message', 'Komplainmu berhasil di submit bro, mohon tunggu dibalas.');
+        } else {
           return redirect()->route('komplain.index');
         }
     }

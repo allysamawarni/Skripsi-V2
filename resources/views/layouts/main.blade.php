@@ -47,8 +47,14 @@
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom"><i
-                    class="fas fa fa-music me-2"></i>PSUP</div>
+            <div class="sidebar-heading text-center d-flex py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+              <img src="{{asset('img/logo.png')}}" style="width: 50px" />
+              {{-- <i class="fas fa fa-music me-2"></i> --}}
+              <div class="">
+                <div style="color: black;font-size: 12pt">Paduan Suara </div>
+                <div style="color: black;font-size: 12pt">Universitas Pancasila</div>
+              </div>
+            </div>
             <div class="list-group list-group-flush my-3">
               @php($user = Auth::user()->getRoleNames()[0])
                 <a href="{{ route('dashboard') }}"
@@ -72,6 +78,7 @@
                 <a href="{{ route('pembelian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pembelian') ? 'active' : '' }}"><i class="fas fa-shopping-cart me-2"></i>Pembelian</a>
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-gift me-2"></i>Products</a> --}}
+                <a href="{{ route('perawatan.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('perawatan') ? 'active' : '' }}"><i class="fas fa-calendar me-2"></i>Perawatan</a>
                 <a href="{{ route('event.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('event') ? 'active' : '' }}"><i class="fas fa-calendar me-2"></i>Event</a>
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-map-marker-alt me-2"></i>Outlet</a> --}}

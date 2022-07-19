@@ -62,6 +62,25 @@
               </div>
 
               <div class="form-group py-2">
+                  <input type="number" class="form-control @error('nilai_residu') is-invalid @enderror"
+                      placeholder="Nilai Residu" id="nilai_residu" name="nilai_residu" value="{{ $item->nilai_residu }}" required>
+                  @error('nilai_residu')
+                      <div class="invalid-feedback">
+                          {{ $message }}
+                      </div>
+                  @enderror
+              </div>
+              <div class="form-group py-2">
+                  <input type="number" class="form-control @error('umur_barang') is-invalid @enderror"
+                      placeholder="Umur Ekonomis" id="umur_barang" name="umur_barang" value="{{ $item->umur_barang }}" required>
+                  @error('umur_barang')
+                      <div class="invalid-feedback">
+                          {{ $message }}
+                      </div>
+                  @enderror
+              </div>
+
+              <div class="form-group py-2">
                   <select name="id_status" id="id_status" class="form-control" required>
                       <option value="">Pilih Status Barang</option>
                       @foreach ($status as $key => $items)

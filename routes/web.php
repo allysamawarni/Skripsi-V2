@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KomplainController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PerawatanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('/komplain', KomplainController::class);
     Route::resource('/pembelian', PembelianController::class);
     Route::resource('/event', EventController::class);
+    Route::resource('/perawatan', PerawatanController::class);
     Route::post('/komplain/reply/{id}', 'App\Http\Controllers\KomplainController@reply')->name('komplain.reply');
     Route::post('/pembelian/terima/{id}', 'App\Http\Controllers\PembelianController@terima')->name('pembelian.terima');
 });
