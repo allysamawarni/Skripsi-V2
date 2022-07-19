@@ -13,6 +13,7 @@
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Tanggal</th>
                         <th>Nama Pembelian</th>
                         <th>Harga Pembelian</th>
                         <th>Jumlah</th>
@@ -47,6 +48,10 @@
                     searchable: false,
                     sortable: false,
 
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at',
                 },
                 {
                     data: 'nama_pembelian',

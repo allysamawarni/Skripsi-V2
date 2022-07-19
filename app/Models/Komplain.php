@@ -11,6 +11,7 @@ class Komplain extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $primaryKey = 'id_komplain';
 
     public function barang() {
         return $this->hasOne(Barang::class, 'id_barang', 'id_barang');

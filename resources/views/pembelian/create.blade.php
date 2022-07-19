@@ -50,14 +50,7 @@
                   @enderror
               </div>
 
-              <div class="form-group my-2">
-                  <input type="date" class="form-control @error('tgl_pembelian') is-invalid @enderror" placeholder="Tanggal Pembelian" id="tgl_pembelian" name="tgl_pembelian" required value="{{ old('tgl_pembelian') }}">
-                  @error('tgl_pembelian')
-                      <div class="invalid-feedback">
-                          {{ $message }}
-                      </div>
-                  @enderror
-              </div>
+              
               <div class="form-group py-2">
                   <input required type="file" class="form-control @error('image_pembelian') is-invalid @enderror"
                       placeholder="Foto pembelian" id="image_pembelian" name="image_pembelian" value="{{ old('image_pembelian') }}">

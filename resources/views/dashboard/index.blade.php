@@ -77,7 +77,7 @@
         </div>
         @php($komplain = App\Models\Komplain::where('id_user', Auth::user()->id)->first())
         @if($komplain)
-          @php($balasan = App\Models\Komplain::where('parent_id', $komplain->id)->first())
+          @php($balasan = App\Models\Komplain::where('parent_id', $komplain->komplain_id)->first())
           <div class="col-lg-12">
             <div class="card">
               <div class="card-header">
@@ -90,7 +90,7 @@
                   </div>
                   <div class="col-md-10">
                     <strong>
-                      {{$komplain->barang->nama_barang}}
+                      {{$komplain->barang ? $komplain->barang->nama_barang : 'DELETED'}}
                     </strong>
                   </div>
                   <div class="col-md-2">
