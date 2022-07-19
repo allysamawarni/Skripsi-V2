@@ -75,9 +75,9 @@
             </div>
           </div>
         </div>
-        @php($komplain = App\Models\Komplain::where('id_user', Auth::user()->id)->orderBy('id', 'desc')->first())
+        @php($komplain = App\Models\Komplain::where('id_user', Auth::user()->id)->orderBy('id_komplain', 'desc')->first())
         @if($komplain)
-          @php($balasan = App\Models\Komplain::where('parent_id', $komplain->komplain_id)->first())
+          @php($balasan = App\Models\Komplain::where('parent_id', $komplain->id_komplain)->first())
           <div class="col-lg-12">
             <div class="card">
               <div class="card-header">
