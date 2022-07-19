@@ -58,15 +58,37 @@
                       </div>
                   @enderror
               </div>
-              <div class="form-group py-2">
+              <div class="form-group input-group py-2">
+                <input type="file" class="form-control @error('image_pembelian') is-invalid @enderror" name="image_pembelian" id="image_pembelian" accept="image/png, image/gif, image/jpeg">
+                <label class="input-group-text" for="image_pembelian">Upload Foto Barang</label>
+                @error('image_pembelian')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+              </div>
+              <div class="form-group input-group py-2">
+                <input type="file" class="form-control @error('pdf_file') is-invalid @enderror" name="pdf_file" id="pdf_file" accept="application/pdf">
+                <label class="input-group-text" for="pdf_file">Upload PDF Pembelian</label>
+                @error('pdf_file')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+              </div>
+              {{-- <div class="form-group py-2">
                   <input required type="file" class="form-control @error('image_pembelian') is-invalid @enderror"
-                      placeholder="Foto pembelian" id="image_pembelian" name="image_pembelian" value="{{ old('image_pembelian') }}">
-                  @error('image_pembelian')
+                      placeholder="Foto pembelian" id="image_pembelian" name="image_pembelian" value="{{ old('image_pembelian') }}" accept="image/png, image/gif, image/jpeg">
+              </div> --}}
+              {{-- <div class="form-group py-2">
+                  <input required type="file" class="form-control @error('file_pdf') is-invalid @enderror"
+                      placeholder="Foto pembelian" id="file_pdf" name="file_pdf" value="{{ old('file_pdf') }}" accept="application/pdf">
+                  @error('file_pdf')
                       <div class="invalid-feedback">
                           {{ $message }}
                       </div>
                   @enderror
-              </div>
+              </div> --}}
               <div class="form-btn mt-2">
                   <button type="submit" class="btn btn-primary">Simpan</button>
               </div>

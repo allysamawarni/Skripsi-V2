@@ -118,6 +118,7 @@ class PembelianController extends Controller
     {
         $data = $request->all();
         $data['image_pembelian'] = $request->file('image_pembelian')->store('assets/pembelian','public');
+        $data['pdf_file'] = $request->file('pdf_file')->store('assets/pdfpembelian','public');
         $data['id_user'] = Auth::user()->id;
         $barang = Pembelian::create($data);
         return redirect()->route('pembelian.index');
