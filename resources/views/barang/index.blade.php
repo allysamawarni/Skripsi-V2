@@ -17,8 +17,9 @@
                         <th>Nama</th>
                         <th>Stok</th>
                         <th>Tahun</th>
+                        <th>Umur Ekonomis</th>
                         <th>Harga Beli</th>
-                        <th>Harga Penyusutan</th>
+                        <th>Biaya Penyusutan</th>
                         <th>Status</th>
                         <th>Gambar</th>
                         <th>Aksi</th>
@@ -71,6 +72,10 @@
                 {
                     data: 'tahun_barang',
                     name: 'tahun_barang',
+                },
+                {
+                    data: 'umur_barang',
+                    name: 'umur_barang',
                 },
                 {
                     data: 'harga_barang',

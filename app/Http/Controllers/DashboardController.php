@@ -19,7 +19,7 @@ class DashboardController extends Controller
                         ->join('barang', 'barang.id_barang', 'pemakaian.id_barang')
                         ->where('pemakaian.id_user', Auth::user()->id)
                         ->select('pemakaian.*', 'barang.nama_barang', 'users.name')
-                        ->orderBy('id_pemakaian', 'desc')->get();
+                        ->orderBy('pemakaian.id_pemakaian', 'desc')->get();
               return DataTables::of($query)
                   ->addIndexColumn()
                   ->addColumn('id_user', function($item){

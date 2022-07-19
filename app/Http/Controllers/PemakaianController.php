@@ -90,7 +90,7 @@ class PemakaianController extends Controller
       $user = Auth::user()->getRoleNames()[0];
 
       if($user == 'Ukm'){
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Peminjamanmu berhasil di submit bro, mohon tunggu disetujui.');
       }else{
         return redirect()->route('pemakaian.index');
       }
@@ -116,8 +116,8 @@ class PemakaianController extends Controller
     public function edit(Pemakaian $pemakaian)
     {
         $item = Pemakaian::findOrFail($pemakaian->id_pemakaian);
-         $user = User::all()->pluck('name', 'id');
-         $barang = Barang::all()->pluck('nama_barang', 'id_barang');
+        $user = User::all()->pluck('name', 'id');
+        $barang = Barang::all()->pluck('nama_barang', 'id_barang');
         return view('pemakaian.edit', [
             'item' => $item,
             'user' => $user,

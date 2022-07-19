@@ -5,7 +5,7 @@
         <div class="bg-menu">
             <div class="img d-flex justify-content-center">
                 <a href="{{ url('img/logo.png') }}">
-                    <img src="{{ url('img/logo.jpg') }}" height="70" width="65" class="logo" >
+                    <img src="{{ url('img/logo.png') }}" height="70" width="65" class="logo" >
                 </a>
             </div>
 

@@ -75,7 +75,7 @@
             </div>
           </div>
         </div>
-        @php($komplain = App\Models\Komplain::where('id_user', Auth::user()->id)->first())
+        @php($komplain = App\Models\Komplain::where('id_user', Auth::user()->id)->orderBy('id', 'desc')->first())
         @if($komplain)
           @php($balasan = App\Models\Komplain::where('parent_id', $komplain->komplain_id)->first())
           <div class="col-lg-12">
