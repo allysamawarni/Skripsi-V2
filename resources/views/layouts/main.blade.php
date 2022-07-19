@@ -85,7 +85,7 @@
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
                         class="fas fa-power-off me-2"></i>Logout</a> --}}
               @elseif ($user == 'Ukm')
-                <a href="{{ route('pemakaian.create') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pemakaian/create') ? 'active' : '' }}"><i class="fas fa-user-clock me-2"></i>Pemakaian</a>
+                <a href="{{ route('pemakaian.create') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pemakaian/create') ? 'active' : '' }}"><i class="fas fa-user-clock me-2"></i>Peminjaman</a>
                 <a href="{{ route('komplain.create') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('komplain/create') ? 'active' : '' }}"><i class="fas fa-comment me-2"></i>Komplain</a>
               @endif
             </div>
