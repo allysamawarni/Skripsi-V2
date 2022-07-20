@@ -7,9 +7,12 @@ use App\Http\Requests\BarangRequest;
 use App\Models\Barang;
 use App\Models\Kategori;
 use App\Models\Status;
+use App\Models\Ukuran;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use DB;
+use App\Models\Stok;
 
 class BarangController extends Controller
 {
@@ -21,7 +24,7 @@ class BarangController extends Controller
     public function index()
     {
          if(request()->ajax()) {
-            $query = Barang::with('status')->orderBy('id_barang', 'desc')->get();
+            $query = Barang::orderBy('id_barang', 'desc')->get();
             foreach ($query as $value) {
               $value->harga_beli = $value->harga_barang;
               $value->harga_barang = number_format($value->harga_barang);
@@ -34,8 +37,8 @@ class BarangController extends Controller
                 ->editColumn('foto_barang', function($item){
                     return $item->foto_barang ? '<img src="'. Storage::url($item->foto_barang).'" style="max-height: 50px;" />' : '';
                 })
-                ->editColumn('status_barang', function ($item){
-                  return $item->status->nama_status;
+                ->editColumn('stok_barang', function($item){
+                  return Stok::where('id_barang', $item->id_barang)->sum('jumlah_stok');
                 })
                 ->editColumn('penyusutan', function($item){
                   if($item->nilai_residu != null || $item->umur_barang != null){
@@ -79,9 +82,11 @@ class BarangController extends Controller
     {
          $kategori = Kategori::all()->pluck('nama_kategori', 'id_kategori');
          $status = Status::all()->pluck('nama_status', 'id_status');
+         $ukuran = Ukuran::all()->pluck('nama_ukuran', 'id_ukuran');
         return view('barang.create', [
             'kategori' => $kategori,
-            'status' => $status
+            'status' => $status,
+            'ukuran' => $ukuran,
         ]);
     }
 
@@ -91,12 +96,31 @@ class BarangController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BarangRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->all();
-        $data['foto_barang'] = $request->file('foto_barang')->store('assets/barang','public');
-        $barang = Barang::create($data);
-        return redirect()->route('barang.index');
+      DB::beginTransaction();
+          $data = $request->all();
+          $foto_barang = $request->file('foto_barang')->store('assets/barang','public');
+          $barang = new Barang;
+          $barang->id_kategori = $request->id_kategori;
+          $barang->nama_barang = $request->nama_barang;
+          $barang->tahun_barang = $request->tahun_barang;
+          $barang->harga_barang = $request->harga_barang;
+          $barang->foto_barang = $foto_barang;
+          $barang->nilai_residu = $request->nilai_residu;
+          $barang->umur_barang = $request->umur_barang;
+          $barang->save();
+          if($barang) {
+            foreach ($request->more as $key => $mor) {
+              $stok = new Stok;
+              $stok->id_barang = $barang->id_barang;
+              $stok->jumlah_stok = $mor['stok_barang'];
+              $stok->id_status = $mor['id_status'];
+              $stok->id_ukuran = $mor['id_ukuran'];
+              $stok->save();
+            }
+          }
+          return redirect()->route('barang.index');
     }
 
     /**
@@ -159,7 +183,9 @@ class BarangController extends Controller
     {
          $item = Barang::findOrFail($barang->id_barang);
          $item->delete();
-
+         if($item){
+           Stok::where('id_barang', $barang->id_barang)->delete();
+         }
          return redirect()->route('barang.index');
 
     }

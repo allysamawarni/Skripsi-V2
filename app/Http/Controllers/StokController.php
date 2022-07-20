@@ -17,14 +17,35 @@ class Stokcontroller extends Controller
      */
     public function index()
     {
-        if(request()->ajax())
-        {
+        if(request()->ajax()) {
             $query = Stok::join('barang', 'barang.id_barang', 'stok.id_barang')
-                      ->select('barang.nama_barang', 'stok.*')
+                      ->leftJoin('status', 'status.id_status', 'stok.id_status')
+                      ->leftJoin('ukurans', 'ukurans.id_ukuran', 'stok.id_ukuran')
+                      ->select('barang.nama_barang', 'stok.*', 'nama_ukuran', 'nama_status')
                       ->orderBy('id_stok', 'desc')->get();
             return DataTables::of($query)
                 ->addIndexColumn()
-            ->rawColumns(['nama_barang', 'jumlah_stok', 'ketrangan'])
+                ->addColumn('aksi', function($item) {
+                    return '
+                        <div class="aksi d-flex align-items-center">
+                            <div class="aksi-edit px-1">
+                                <a class="btn btn-success edit" href="'. route('stok.edit', $item->id_stok) .'">
+                                    edit
+                                </a>
+                            </div>
+                            <div class="aksi-hapus">
+                                <form class="inline-block" action="'. route('stok.destroy', $item->id_stok) .'" method="POST">
+                                    <button class="btn btn-danger">
+                                        hapus
+                                    </button>
+                                    '. method_field('delete') . csrf_field() .'
+                                </form>
+                            </div>
+                        </div>
+                    ';
+
+                })
+            ->rawColumns(['nama_barang', 'jumlah_stok', 'ketrangan', 'aksi'])
             ->make();
         }
 

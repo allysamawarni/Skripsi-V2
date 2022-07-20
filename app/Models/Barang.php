@@ -15,8 +15,10 @@ class Barang extends Model
     public function kategori() {
         return $this->hasOne(Kategori::class, 'id_kategori', 'id_kategori');
     }
-    public function status()
-    {
+    public function status() {
         return $this->hasOne(Status::class, 'id_status', 'id_status');
+    }
+    public function stok(){
+      return $this->hasMany(Stok::class, 'id_barang', 'id_barang');
     }
 }

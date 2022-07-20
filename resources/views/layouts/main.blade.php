@@ -67,11 +67,8 @@
                 <a href="{{ route('barang.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('barang') ? 'active' : '' }}"><i
                         class="fas fa-chart-line me-2"></i>Barang</a>
-                <a href="{{ route('status.index') }}"
-                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('status') ? 'active' : '' }}"><i
-                        class="fas fa-project-diagram me-2"></i>Status</a>
-                <a href="{{ route('stok.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('stok') ? 'active' : '' }}"><i
-                        class="fas fa-paperclip me-2"></i>Stok</a>
+                <a href="{{ route('stok.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('stok') ? 'active' : '' }}"><i class="fas fa-paperclip me-2"></i>Stok</a>
+                <a href="{{ route('status.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('status') ? 'active' : '' }}"><i class="fas fa-project-diagram me-2"></i>Status</a>
                 <a href="{{ route('pemakaian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pemakaian') ? 'active' : '' }}"><i class="fas fa-user-clock me-2"></i>Pemakaian</a>
                 <a href="{{ route('user.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('user') ? 'active' : '' }}"><i class="fas fa-user me-2"></i>User</a>
                 <a href="{{ route('komplain.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('komplain') ? 'active' : '' }}"><i class="fas fa-comment me-2"></i>Komplain</a>

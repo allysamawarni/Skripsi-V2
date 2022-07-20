@@ -15,12 +15,11 @@
                         <th>No</th>
                         <th>Kategori</th>
                         <th>Nama</th>
-                        <th>Stok</th>
                         <th>Tahun</th>
                         <th>Umur Ekonomis</th>
                         <th>Harga Beli</th>
+                        <th>Stok</th>
                         <th>Biaya Penyusutan</th>
-                        <th>Status</th>
                         <th>Gambar</th>
                         <th>Aksi</th>
                     </tr>
@@ -66,10 +65,6 @@
                     name: 'nama_barang',
                 },
                 {
-                    data: 'stok_barang',
-                    name: 'stok_barang',
-                },
-                {
                     data: 'tahun_barang',
                     name: 'tahun_barang',
                 },
@@ -82,12 +77,12 @@
                     name: 'harga_barang',
                 },
                 {
-                  data: 'penyusutan',
-                  name: 'penyusutan'
+                    data: 'stok_barang',
+                    name: 'stok_barang',
                 },
                 {
-                    data: 'status_barang',
-                    name: 'status_barang',
+                  data: 'penyusutan',
+                  name: 'penyusutan'
                 },
                 {
                     data: 'foto_barang',

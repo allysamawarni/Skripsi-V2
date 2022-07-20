@@ -12,8 +12,10 @@
             <tr>
                 <th>No</th>
                 <th>Nama Barang</th>
+                <th>Ukuran</th>
                 <th>Jumlah Stok</th>
-                <th>Keterangan</th>
+                <th>Status</th>
+                <th>Aksi</th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -45,22 +47,26 @@
                     name: 'nama_barang',
                 },
                 {
+                    data: 'nama_ukuran',
+                    name: 'nama_ukuran',
+                },
+                {
                     data: 'jumlah_stok',
                     name: 'jumlah_stok',
                 },
                 {
-                    data: 'keterangan',
-                    name: 'keterangan',
+                    data: 'nama_status',
+                    name: 'nama_status',
                 },
-                // {
-                //     data: 'aksi',
-                //     name: 'aksi',
-                //     width: '5%',
-                //
-                //     orderable: false,
-                //     searchable: false,
-                //     sortable: false
-                // },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    width: '5%',
+
+                    orderable: false,
+                    searchable: false,
+                    sortable: false
+                },
             ]
         });
     </script>
