@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Status;
 use Yajra\DataTables\Facades\DataTables;
-
+use Auth;
 use Illuminate\Http\Request;
 
 
@@ -22,6 +22,7 @@ class Statuscontroller extends Controller
             return DataTables::of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', function($item) {
+                  if(Auth::user()->getRoleNames()[0] == 'Admin'){
             return '
                 <div class="aksi d-flex align-items-center">
                     <div class="aksi-edit px-1">
@@ -39,7 +40,9 @@ class Statuscontroller extends Controller
                     </div>
                 </div>
             ';
-
+          }else {
+            return null;
+          }
         })
             ->rawColumns(['aksi'])
             ->make();
@@ -125,6 +128,6 @@ class Statuscontroller extends Controller
             $data = Status::findOrFail($id);
             $data->delete();
             return redirect()->route('status.index');
-    
+
     }
 }

@@ -31,6 +31,8 @@ class KomplainController extends Controller
                     return $item->barang  ? $item->barang->nama_barang : 'DELETED';
                   })
                   ->editColumn('aksi', function ($item) {
+
+                      if(Auth::user()->getRoleNames()[0] == 'Admin'){
                         return '
                             <div class="aksi d-flex align-items-center">
                                 <div class="aksi-edit px-1">
@@ -48,6 +50,9 @@ class KomplainController extends Controller
                                 </div>
                             </div>
                         ';
+                      }else {
+                        return null;
+                      }
                     })
               ->rawColumns(['name','nama_barang', 'pesan', 'aksi'])
               ->make();

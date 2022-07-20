@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Yajra\DataTables\Facades\DataTables;
-
+use Auth;
 class EventController extends Controller
 {
     /**
@@ -21,6 +21,8 @@ class EventController extends Controller
               return DataTables::of($query)
                   ->addIndexColumn()
                   ->addColumn('aksi', function($item) {
+
+                      if(Auth::user()->getRoleNames()[0] == 'Admin'){
                       return '
                           <div class="aksi d-flex align-items-center">
                               <div class="aksi-edit px-1">
@@ -38,7 +40,9 @@ class EventController extends Controller
                               </div>
                           </div>
                       ';
-
+                    }else {
+                      return null;
+                    }
                   })
                   ->rawColumns(['id','aksi'])
                 ->make();

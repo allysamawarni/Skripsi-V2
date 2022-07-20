@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
-
+use Auth;
 class UserController extends Controller
 {
     /**
@@ -37,6 +37,8 @@ class UserController extends Controller
                   }
                 })
                 ->addColumn('aksi', function($item) {
+                  if(Auth::user()->getRoleNames()[0] == 'Admin'){
+
             return '
                 <div class="aksi d-flex align-items-center">
                     <div class="aksi-edit px-1">
@@ -54,7 +56,9 @@ class UserController extends Controller
                     </div>
                 </div>
             ';
-
+          }else {
+            return null;
+          }
         })
             ->rawColumns(['id_kategori','foto_barang','aksi'])
             ->make();

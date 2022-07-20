@@ -6,7 +6,7 @@ use App\Http\Requests\KategoriRequest;
 use Yajra\DataTables\Facades\DataTables;
 
 use Illuminate\Http\Request;
-
+use Auth;
 class KategoriController extends Controller
 {
     /**
@@ -22,23 +22,28 @@ class KategoriController extends Controller
             return DataTables::of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', function($item) {
-            return '
-                <div class="aksi d-flex align-items-center">
-                    <div class="aksi-edit px-1">
-                        <a class="btn btn-success edit" href="'. route('kategori.edit', $item->id_kategori) .'">
-                            Edit
-                        </a>
-                    </div>
-                    <div class="aksi-hapus">
-                        <form class="inline-block" action="'. route('kategori.destroy', $item->id_kategori) .'" method="POST">
-                            <button class="btn btn-danger">
-                                Hapus
-                            </button>
-                                '. method_field('delete') . csrf_field() .'
-                        </form>
-                    </div>
-                </div>
-            ';
+
+                    if(Auth::user()->getRoleNames()[0] == 'Admin'){
+                      return '
+                          <div class="aksi d-flex align-items-center">
+                              <div class="aksi-edit px-1">
+                                  <a class="btn btn-success edit" href="'. route('kategori.edit', $item->id_kategori) .'">
+                                      Edit
+                                  </a>
+                              </div>
+                              <div class="aksi-hapus">
+                                  <form class="inline-block" action="'. route('kategori.destroy', $item->id_kategori) .'" method="POST">
+                                      <button class="btn btn-danger">
+                                          Hapus
+                                      </button>
+                                          '. method_field('delete') . csrf_field() .'
+                                  </form>
+                              </div>
+                          </div>
+                      ';
+                    }else {
+                      return null;
+                    }
 
         })
             ->rawColumns(['aksi'])

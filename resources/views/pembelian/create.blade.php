@@ -49,15 +49,18 @@
                       </div>
                   @enderror
               </div>
-
-<<<<<<< HEAD
-              <div class="form-group my-2">
-                  <input type="date" class="form-control @error('tgl_pembelian') is-invalid @enderror" placeholder="Tanggal Pembelian" id="tgl_pembelian" name="tgl_pembelian" required value="{{ old('tgl_pembelian') }}">
-                  @error('tgl_pembelian')
-                      <div class="invalid-feedback">
-                          {{ $message }}
-                      </div>
-                  @enderror
+              <div class="form-group my-2 row">
+                  <label class="col-md-2" for="">
+                    <strong>Tanggal Pembelian</strong>
+                  </label>
+                  <div class="col-md-12">
+                    <input type="date" class="form-control @error('tgl_pembelian') is-invalid @enderror" placeholder="Tanggal Pembelian" id="tgl_pembelian" name="tgl_pembelian" required value="{{ old('tgl_pembelian') }}">
+                    @error('tgl_pembelian')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                  </div>
               </div>
               <div class="form-group input-group py-2">
                 <input type="file" class="form-control @error('image_pembelian') is-invalid @enderror" name="image_pembelian" id="image_pembelian" accept="image/png, image/gif, image/jpeg">
@@ -79,7 +82,7 @@
               </div>
               {{-- <div class="form-group py-2">
 =======
-              
+
               <div class="form-group py-2">
 >>>>>>> 85a0c3e14469d88a71d16b2b49bc181243d97bc4
                   <input required type="file" class="form-control @error('image_pembelian') is-invalid @enderror"

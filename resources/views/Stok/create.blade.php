@@ -35,6 +35,35 @@
                   </div>
               @enderror
           </div>
+          <div id="form">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group py-2">
+                  <select name="id_ukuran" id="id_ukuran" class="form-control" required>
+                    <option value="">Pilih Ukuran Barang</option>
+                    @foreach ($ukuran as $key => $value)
+                      <option value="{{$key}}">{{$value}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group py-2">
+                  <input type="number" class="form-control" placeholder="Stok barang" id="jumlah_stok" name="jumlah_stok" value="0"required>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group py-2">
+                  <select name="id_status" id="id_status" class="form-control" required>
+                    <option value="">Pilih Status Barang</option>
+                    @foreach ($status as $key => $value)
+                      <option value="{{$key}}">{{$value}}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="form-btn mt-2">
               <button type="submit" class="btn btn-primary">Simpan</button>
           </div>

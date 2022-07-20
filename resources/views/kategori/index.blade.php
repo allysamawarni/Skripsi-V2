@@ -6,7 +6,10 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between">
           <h3>Daftar Kategori</h3>
+
+          @if(Auth::user()->getRoleNames()[0] == 'Admin')
           <a href="{{ route('kategori.create') }}" class="btn btn-primary">Tambah</a>
+        @endif
         </div>
         <div class="card-body">
           <table class="table" id="crudTable">

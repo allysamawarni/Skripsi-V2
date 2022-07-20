@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pemakaian;
 use App\Models\User;
 use App\Models\Barang;
+use App\Models\Stok;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
 
@@ -36,6 +37,8 @@ class PemakaianController extends Controller
                   return $item->nama_peminjam;
                 })
                 ->editColumn('aksi', function ($item) {
+
+                    if(Auth::user()->getRoleNames()[0] == 'Admin'){
                     return '
                         <div class="aksi d-flex align-items-center">
                             <div class="aksi-edit px-1">
@@ -53,7 +56,9 @@ class PemakaianController extends Controller
                             </div>
                         </div>
                     ';
-
+                  }else {
+                    return null;
+                  }
                 })
             ->rawColumns(['id_user', 'name', 'nama_peminjam', 'aksi'])
             ->make();
@@ -70,7 +75,11 @@ class PemakaianController extends Controller
     public function create()
     {
         $user = User::all()->pluck('name', 'id');
-        $barang = Barang::all()->pluck('nama_barang', 'id_barang');
+        $barang = Barang::join('stok', 'stok.id_barang', 'barang.id_barang')
+                    ->join('ukurans', 'ukurans.id_ukuran', 'stok.id_ukuran')
+                    ->select('nama_barang', 'barang.id_barang', 'ukurans.nama_ukuran', 'stok.id_stok')
+                    ->get();
+
         return view('pemakaian.create', [
             'user'=>$user,
             'barang' => $barang
@@ -86,9 +95,16 @@ class PemakaianController extends Controller
     public function store(Request $request)
     {
       $data = $request->all();
+      $stok = Stok::find($request->id_barang);
+
+      $data['id_barang'] = $stok->id_barang;
       $barang = Pemakaian::create($data);
       $user = Auth::user()->getRoleNames()[0];
-
+      if($request->jml_item <= $stok->jumlah_stok){
+        $stok->decrement('jumlah_stok', $request->jml_item);
+      }else{
+        $stok->decrement('jumlah_stok', $stok->jumlah_stok);
+      }
       if($user == 'Ukm'){
         return redirect()->back()->with('message', 'Peminjamanmu berhasil di submit bro, mohon tunggu disetujui.');
       }else{

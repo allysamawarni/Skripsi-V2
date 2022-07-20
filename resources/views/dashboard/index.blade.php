@@ -75,8 +75,9 @@
             </div>
           </div>
         </div>
-        @php($komplain = App\Models\Komplain::where('id_user', Auth::user()->id)->orderBy('id_komplain', 'desc')->first())
-        @if($komplain)
+        @php($komplains = App\Models\Komplain::where('id_user', Auth::user()->id)->orderBy('id_komplain', 'desc')->limit(5)->get())
+        @if(count($komplains)>0)
+          @foreach ($komplains as $key => $komplain)
           @php($balasan = App\Models\Komplain::where('parent_id', $komplain->id_komplain)->first())
           <div class="col-lg-12">
             <div class="card">
@@ -113,6 +114,8 @@
               </div>
             </div>
           </div>
+
+          @endforeach
         @endif
       @endif
     </div>
