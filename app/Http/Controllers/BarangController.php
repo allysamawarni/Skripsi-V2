@@ -102,7 +102,6 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-      DB::beginTransaction();
           $data = $request->all();
           $foto_barang = $request->file('foto_barang')->store('assets/barang','public');
           $barang = new Barang;
