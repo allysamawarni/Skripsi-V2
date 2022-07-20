@@ -94,12 +94,14 @@ class PemakaianController extends Controller
      */
     public function store(Request $request)
     {
+      $user = Auth::user()->getRoleNames()[0];
       $data = $request->all();
       $stok = Stok::find($request->id_barang);
-
+      if($user != 'Admin'){
+        $data['id_user'] = Auth::user()->id;
+      }
       $data['id_barang'] = $stok->id_barang;
       $barang = Pemakaian::create($data);
-      $user = Auth::user()->getRoleNames()[0];
       if($request->jml_item <= $stok->jumlah_stok){
         $stok->decrement('jumlah_stok', $request->jml_item);
       }else{
