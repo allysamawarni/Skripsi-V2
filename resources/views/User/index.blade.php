@@ -4,7 +4,10 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between">
       <h3>Daftar Pengguna Baru</h3>
+
+      @if(Auth::user()->getRoleNames()[0] == 'Admin')
         <a href="{{ route('user.create') }}" type="button" class="btn btn-primary">Tambah Pengguna Baru</a>
+      @endif
     </div>
     <div class="card-body">
       <table class="table scroll-horizontal-vertical" id="crudTable">

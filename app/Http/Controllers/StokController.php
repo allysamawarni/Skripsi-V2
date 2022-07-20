@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 use App\Models\Stok;
 use App\Models\Barang;
 use App\Models\Status;
+use App\Models\Ukuran;
 use Yajra\DataTables\Facades\DataTables;
-
+use Auth;
 use Illuminate\Http\Request;
 
-class Stokcontroller extends Controller
+class StokController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,6 +27,8 @@ class Stokcontroller extends Controller
             return DataTables::of($query)
                 ->addIndexColumn()
                 ->addColumn('aksi', function($item) {
+                  if(Auth::user()->getRoleNames()[0] == 'Admin'){
+
                     return '
                         <div class="aksi d-flex align-items-center">
                             <div class="aksi-edit px-1">
@@ -43,7 +46,9 @@ class Stokcontroller extends Controller
                             </div>
                         </div>
                     ';
-
+                  }else {
+                    return null;
+                  }
                 })
             ->rawColumns(['nama_barang', 'jumlah_stok', 'ketrangan', 'aksi'])
             ->make();
@@ -60,8 +65,12 @@ class Stokcontroller extends Controller
     public function create()
     {
         $barang = Barang::all()->pluck('nama_barang', 'id_barang');
+        $ukuran = Ukuran::all()->pluck('nama_ukuran', 'id_ukuran');
+        $status = Status::all()->pluck('nama_status', 'id_status');
         return view('stok.create', [
-            'barang' => $barang
+            'barang' => $barang,
+            'ukuran' => $ukuran,
+            'status' => $status
         ]);
     }
 
@@ -73,9 +82,6 @@ class Stokcontroller extends Controller
      */
     public function store(Request $request) {
         $data = $request->all();
-        $barang = Barang::find($request->id_barang);
-        $barang->stok_barang = $request->jumlah_stok;
-        $barang->save();
         Stok::create($data);
         return redirect()->route('stok.index');
     }
@@ -97,13 +103,15 @@ class Stokcontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        $item = Barang::findOrFail($id);
+        $item = Stok::findOrFail($id);
         $barang = Barang::all()->pluck('nama_barang', 'id_barang');
+        $ukuran = Ukuran::all()->pluck('nama_ukuran', 'id_ukuran');
         return view('stok.edit', [
             'item' => $item,
             'barang' => $barang,
+            'ukuran' => $ukuran,
         ]);
     }
 
@@ -117,7 +125,7 @@ class Stokcontroller extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $item = Barang::findOrFail($id);
+        $item = Stok::findOrFail($id);
         $item->update($data);
         return redirect()->route('stok.index');
     }
@@ -130,7 +138,7 @@ class Stokcontroller extends Controller
      */
     public function destroy($id)
     {
-        $data = Barang::findOrFail($id);
+        $data = Stok::findOrFail($id);
             $data->delete();
             return redirect()->route('stok.index');
     }

@@ -18,7 +18,7 @@
               @php($users = Auth::user()->getRoleNames()[0])
               @if($users == 'Ukm')
               <div class="form-group my-2">
-                <select name="id_user" id="id_user" class="form-control" required readOnly>
+                <select name="id_user" id="id_user" class="form-control" required disabled>
                       <option value="">Pilih User</option>
                       @foreach ($user as $key => $item)
                           <option value="{{ $key }}" {{Auth::user()->id === $key ? 'selected' : null}}>{{ $item }}</option>
@@ -41,7 +41,7 @@
                 <select name="id_barang" id="id_barang" class="form-control" required>
                       <option value="">Pilih Barang</option>
                       @foreach ($barang as $key => $item)
-                          <option value="{{ $key }}">{{ $item }}</option>
+                          <option value="{{ $item->id_stok }}">{{ $item->nama_barang }} ({{$item->nama_ukuran}})</option>
                       @endforeach
                   </select>
                   <span class="help-block with-errors"></span>
@@ -64,21 +64,31 @@
                       </div>
                   @enderror
               </div>
-              <div class="form-group my-2">
+              <div class="form-group my-2 row">
+                <label class="col-md-2" for="">
+                  <strong>Tanggal Peminjaman</strong>
+                </label>
+                <div class="col-md-12 mt-1">
                   <input type="date" min="{{date('Y-m-d')}}" class="form-control @error('tgl_pinjam') is-invalid @enderror" placeholder="tgl pinjam" id="tgl_pinjam" name="tgl_pinjam" value="{{ old('tgl_pinjam') }}">
                   @error('tgl_pinjam')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
                   @enderror
+                  </div>
               </div>
-              <div class="form-group my-2">
-                  <input type="date" min="{{date('Y-m-d')}}" class="form-control @error('tgl_pengembalian') is-invalid @enderror" placeholder="tgl pengembalian" id="tgl_pengembalian" name="tgl_pengembalian" value="{{ old('tgl_pengembalian') }}">
-                  @error('tgl_pengembalian')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                  @enderror
+              <div class="form-group my-2 row">
+                  <label class="col-md-2" for="">
+                    <strong>Tanggal Pengembalian</strong>
+                  </label>
+                  <div class="col-md-12 mt-1">
+                      <input type="date" min="{{date('Y-m-d')}}" class="form-control @error('tgl_pengembalian') is-invalid @enderror" placeholder="tgl pengembalian" id="tgl_pengembalian" name="tgl_pengembalian" value="{{ old('tgl_pengembalian') }}">
+                      @error('tgl_pengembalian')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                      @enderror
+                  </div>
               </div>
               <div class="form-group my-2">
                   <input type="number" class="form-control @error('jml_item') is-invalid @enderror" placeholder="Jumlah Item" id="jml_item" name="jml_item" value="{{ old('jml_item') }}">

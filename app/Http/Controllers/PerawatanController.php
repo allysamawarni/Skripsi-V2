@@ -9,7 +9,7 @@ use App\Models\Status;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-
+use Auth;
 
 class PerawatanController extends Controller
 {
@@ -21,17 +21,19 @@ class PerawatanController extends Controller
     public function index()
     {
         if(request()->ajax()) {
-           $query = Perawatan::orderBy('id_perawatan', 'desc')->get();
+           $query = Perawatan::join('barang', 'perawatans.id_barang', 'barang.id_barang')
+                  ->orderBy('id_perawatan', 'desc')->select('perawatans.*', 'barang.nama_barang')->get();
            return DataTables::of($query)
                ->addIndexColumn()
                ->editColumn('foto_perawatan', function($item){
                    return $item->foto_perawatan ? '<img src="'. Storage::url($item->foto_perawatan).'" style="max-height: 50px;" />' : '';
                })
-               ->editColumn('status_barang', function ($item){
+               ->editColumn('nama_status', function ($item){
                  $status = Status::find($item->id_status);
                  return $status ? $status->nama_status : null;
                })
                ->addColumn('aksi', function($item) {
+                 if(Auth::user()->getRoleNames()[0] == 'Admin'){
                    return '
                        <div class="aksi d-flex align-items-center">
                            <div class="aksi-edit px-1">
@@ -49,7 +51,9 @@ class PerawatanController extends Controller
                            </div>
                        </div>
                    ';
-
+                 }else {
+                   return null;
+                 }
                })
                ->rawColumns(['id_perawatan','foto_perawatan','aksi'])
                ->make();
@@ -64,7 +68,9 @@ class PerawatanController extends Controller
      */
     public function create()
     {
-        //
+      $barang = Barang::all()->pluck('nama_barang', 'id_barang');
+      $status = Status::all()->pluck('nama_status', 'id_status');
+        return view('perawatan.create', compact('barang', 'status'));
     }
 
     /**
@@ -75,7 +81,15 @@ class PerawatanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $data = $request->all();
+      if($request->foto_perawatan) {
+         $data['foto_perawatan'] = $request->file('foto_perawatan')->store('assets/perawatan','public');
+      } else {
+         unset($data['foto_perawatan']);
+      }
+      Perawatan::create($data);
+
+      return redirect()->route('perawatan.index');
     }
 
     /**

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use DB;
 use App\Models\Stok;
-
+use Auth;
 class BarangController extends Controller
 {
     /**
@@ -47,23 +47,27 @@ class BarangController extends Controller
                   return $item->nilai_residu || $item->umur_barang ? number_format($penyusutan) : 0;
                 })
                 ->addColumn('aksi', function($item) {
-                    return '
-                        <div class="aksi d-flex align-items-center">
-                            <div class="aksi-edit px-1">
-                                <a class="btn btn-success edit" href="'. route('barang.edit', $item->id_barang) .'">
-                                    edit
-                                </a>
-                            </div>
-                            <div class="aksi-hapus">
-                                <form class="inline-block" action="'. route('barang.destroy', $item->id_barang) .'" method="POST">
-                                    <button class="btn btn-danger">
-                                        hapus
-                                    </button>
-                                        '. method_field('delete') . csrf_field() .'
-                                </form>
-                            </div>
-                        </div>
-                    ';
+                  if(Auth::user()->getRoleNames()[0] == 'Admin'){
+                      return '
+                          <div class="aksi d-flex align-items-center">
+                              <div class="aksi-edit px-1">
+                                  <a class="btn btn-success edit" href="'. route('barang.edit', $item->id_barang) .'">
+                                      edit
+                                  </a>
+                              </div>
+                              <div class="aksi-hapus">
+                                  <form class="inline-block" action="'. route('barang.destroy', $item->id_barang) .'" method="POST">
+                                      <button class="btn btn-danger">
+                                          hapus
+                                      </button>
+                                          '. method_field('delete') . csrf_field() .'
+                                  </form>
+                              </div>
+                          </div>
+                      ';
+                  }else {
+                    return null;
+                  }
 
                 })
                 ->rawColumns(['id_kategori','foto_barang','aksi'])

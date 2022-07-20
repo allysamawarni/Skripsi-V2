@@ -4,7 +4,10 @@
   <div class="card">
       <div class="card-header d-flex justify-content-between">
         <h3>Daftar Komplain Barang</h3>
+
+        @if(Auth::user()->getRoleNames()[0] == 'Admin')
         <a href="{{ route('komplain.create') }}" type="button" class="btn btn-primary">Tambah</a>
+      @endif
       </div>
       <div class="card-body">
         <table class="table" id="crudTable">

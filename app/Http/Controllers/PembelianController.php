@@ -24,7 +24,6 @@ class PembelianController extends Controller
                       ->leftJoin('events', 'events.id', 'pembelians.id_event')
                       ->select('pembelians.*', 'u2.name as assign_by', 'u1.name as name')
                       ->orderBy('id', 'desc')->get();
-
            return DataTables::of($query)
                ->addIndexColumn()
                ->editColumn('nama_pembelian', function ($item) {
@@ -35,6 +34,9 @@ class PembelianController extends Controller
                })
                ->editColumn('harga_pembelian', function($item){
                    return number_format($item->harga_pembelian);
+               })
+               ->editColumn('created_at', function($item){
+                 return \Carbon\Carbon::parse($item->created_at)->format('d-M-Y');
                })
                ->addColumn('aksi', function($item) {
                  $user = Auth::user()->getRoleNames()[0];
@@ -80,14 +82,16 @@ class PembelianController extends Controller
                      ';
                  } else if($user == 'Ketua' && $item->assign_by != null){
                    return '
-                   <div class="aksi d-flex align-items-center">
-                       <div class="aksi-edit px-1">
-                           <span class="btn btn-primari edit"">
-                               Disetujui
-                           </span>
-                       </div>
-                   </div>
+                     <div class="aksi d-flex align-items-center">
+                         <div class="aksi-edit px-1">
+                             <span class="btn btn-primari edit"">
+                                 Disetujui
+                             </span>
+                         </div>
+                     </div>
                    ';
+                 } else {
+                   return null;
                  }
              })
            ->rawColumns(['id','image_pembelian','aksi'])

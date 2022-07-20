@@ -32,16 +32,6 @@
               </div>
 
               <div class="form-group py-2">
-                  <input type="number" class="form-control @error('stok_barang') is-invalid @enderror" placeholder="stok barang"
-                      id="stok_barang" name="stok_barang" value="{{ $item->stok_barang }}">
-                  @error('stok_barang')
-                      <div class="invalid-feedback">
-                          {{ $message }}
-                      </div>
-                  @enderror
-              </div>
-
-              <div class="form-group py-2">
                   <input type="taxt" class="form-control @error('tahun_barang') is-invalid @enderror"
                       placeholder="tahun barang" id="tahun_barang" name="tahun_barang" value="{{ $item->tahun_barang }}">
                   @error('tahun_barang')
@@ -79,25 +69,6 @@
                       </div>
                   @enderror
               </div>
-
-              <div class="form-group py-2">
-                  <select name="id_status" id="id_status" class="form-control" required>
-                      <option value="">Pilih Status Barang</option>
-                      @foreach ($status as $key => $items)
-                          <option value="{{ $key }}" {{$item->id_status === $key ? 'selected' : null}}>{{ $items }}</option>
-                      @endforeach
-                  </select>
-              </div>
-
-              {{-- <div class="form-group py-2">
-                  <input type="text" class="form-control @error('status_barang') is-invalid @enderror"
-                      placeholder="status barang" id="status_barang" name="status_barang" value="{{ $item->status_barang }}">
-                  @error('status_barang')
-                      <div class="invalid-feedback">
-                          {{ $message }}
-                      </div>
-                  @enderror
-              </div> --}}
 
               <div class="form-group py-2">
                   <input type="file" class="form-control @error('foto_barang') is-invalid @enderror" placeholder="foto barang"
