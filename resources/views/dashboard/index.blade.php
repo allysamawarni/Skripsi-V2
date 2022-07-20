@@ -106,7 +106,7 @@
                   </div>
                   <div class="col-md-10">
                     <strong>
-                      {{$balasan && $balasan->pesan}}
+                      {{$balasan ? $balasan->pesan : '-'}}
                     </strong>
                   </div>
                 </div>
