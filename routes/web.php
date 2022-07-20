@@ -42,6 +42,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('/perawatan', PerawatanController::class);
     Route::post('/komplain/reply/{id}', 'App\Http\Controllers\KomplainController@reply')->name('komplain.reply');
     Route::post('/pembelian/terima/{id}', 'App\Http\Controllers\PembelianController@terima')->name('pembelian.terima');
+    Route::post('/pemakaian/terima/{id}', 'App\Http\Controllers\PemakaianController@terima')->name('pemakaian.terima');
+    Route::post('terima-barang', 'App\Http\Controllers\PemakaianController@terimaBarang')->name('pemakaian.terimabarang');
+    Route::post('kembali-barang', 'App\Http\Controllers\PemakaianController@kembaliBarang')->name('pemakaian.kembalibarang');
 });
 
 // Route::middleware(['auth:sanctum', 'verified'], ['role:ukm'])->group(function () {

@@ -36,29 +36,38 @@ class PemakaianController extends Controller
                 ->addColumn('nama_peminjam', function($item){
                   return $item->nama_peminjam;
                 })
+                ->addColumn('acc_ketua', function($item){
+                  $ket = User::find($item->acc_ketua);
+                  return $ket ? $ket->name : null;
+                })
                 ->editColumn('aksi', function ($item) {
 
                     if(Auth::user()->getRoleNames()[0] == 'Admin'){
-                    return '
+                      return null;
+                    } else if (Auth::user()->getRoleNames()[0] == 'Ketua' && $item->acc_ketua == null) {
+                      return '
                         <div class="aksi d-flex align-items-center">
                             <div class="aksi-edit px-1">
-                                <a class="btn btn-success edit" href="'. route('pemakaian.edit', $item->id_pemakaian) .'">
-                                    edit
-                                </a>
+                              <form class="inline-block" action="'. route('pemakaian.terima', $item->id_pemakaian) .'" method="POST">
+                                  <button class="btn btn-success">
+                                      Terima
+                                  </button>
+                                      '. method_field('post') . csrf_field() .'
+                              </form>
                             </div>
                             <div class="aksi-hapus">
                                 <form class="inline-block" action="'. route('pemakaian.destroy', $item->id_pemakaian) .'" method="POST">
                                     <button class="btn btn-danger">
-                                        hapus
+                                        Tolak
                                     </button>
                                         '. method_field('delete') . csrf_field() .'
                                 </form>
                             </div>
                         </div>
-                    ';
-                  }else {
-                    return null;
-                  }
+                        ';
+                    } else {
+                      return null;
+                    }
                 })
             ->rawColumns(['id_user', 'name', 'nama_peminjam', 'aksi'])
             ->make();
@@ -66,7 +75,32 @@ class PemakaianController extends Controller
 
         return view('pemakaian.index');
     }
+    public function terima(Request $request, $id){
+         $item = Pemakaian::findOrFail($id);
+         $item->update(['acc_ketua' => Auth::user()->id]);
+         // dd($item);
+         return redirect()->route('pemakaian.index');
+    }
+    public function terimaBarang(Request $request) {
+      $pemakaian  = Pemakaian::find($request->id_pemakaian);
+      $pemakaian->jumlah_diterima= $request->jumlah_diterima > $pemakaian->jml_item ? $pemakaian->jml_item : $request->jumlah_diterima;
+      $pemakaian->diterima_pada = now();
+      $pemakaian->save();
+      return response()->json($pemakaian);
+    }
 
+    public function kembaliBarang(Request $request) {
+        $pemakaian  = Pemakaian::find($request->id_pemakaian);
+        $pemakaian->jumlah_dikembalikan= $request->jumlah_dikembalikan > $pemakaian->jumlah_diterima ? $pemakaian->jumlah_diterima : $request->jumlah_dikembalikan;
+        $pemakaian->pengembalian_pada = now();
+        $pemakaian->save();
+
+        $stok = Stok::find($pemakaian->id_stok);
+        if($stok){
+          $stok->increment('jumlah_stok', $pemakaian->jumlah_dikembalikan);
+        }
+        return response()->json($pemakaian);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -77,7 +111,8 @@ class PemakaianController extends Controller
         $user = User::all()->pluck('name', 'id');
         $barang = Barang::join('stok', 'stok.id_barang', 'barang.id_barang')
                     ->join('ukurans', 'ukurans.id_ukuran', 'stok.id_ukuran')
-                    ->select('nama_barang', 'barang.id_barang', 'ukurans.nama_ukuran', 'stok.id_stok')
+                    ->where('stok.jumlah_stok', '>', 0)
+                    ->select('nama_barang', 'barang.id_barang', 'ukurans.nama_ukuran', 'stok.id_stok', 'stok.jumlah_stok')
                     ->get();
 
         return view('pemakaian.create', [
@@ -96,10 +131,13 @@ class PemakaianController extends Controller
     {
       $data = $request->all();
       $stok = Stok::find($request->id_barang);
-
+      $user = Auth::user()->getRoleNames()[0];
+      if($user != 'Admin'){
+        $data['id_user'] = Auth::user()->id;
+      }
       $data['id_barang'] = $stok->id_barang;
       $barang = Pemakaian::create($data);
-      $user = Auth::user()->getRoleNames()[0];
+      $data['pdf_pemakaian'] = $request->file('pdf_pemakaian')->store('assets/pdf_pemakaian','public');
       if($request->jml_item <= $stok->jumlah_stok){
         $stok->decrement('jumlah_stok', $request->jml_item);
       }else{
@@ -166,8 +204,12 @@ class PemakaianController extends Controller
      */
     public function destroy($id)
     {
-           $item = Pemakaian::findOrFail($id);
-           $item->delete();
-          return redirect()->route('pemakaian.index');
+       $item = Pemakaian::findOrFail($id);
+       $stok = Stok::find($item->id_stok);
+       if($stok){
+         $stok->increment('jumlah_stok', $item->jml_item);
+       }
+       $item->delete();
+      return redirect()->route('pemakaian.index');
     }
 }
