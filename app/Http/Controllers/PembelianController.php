@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pembelian;
+use App\Models\User;
 use App\Models\Event;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
@@ -22,26 +23,52 @@ class PembelianController extends Controller
            $query = Pembelian::join('users as u1', 'u1.id', 'pembelians.id_user')
                       ->leftJoin('users as u2', 'u2.id', 'pembelians.assign_by')
                       ->leftJoin('events', 'events.id', 'pembelians.id_event')
-                      ->select('pembelians.*', 'u2.name as assign_by', 'u1.name as name')
+                      ->select('pembelians.*', 'pembelians.assign_by as id_assign', 'u2.name as assign_by', 'u1.name as name')
                       ->orderBy('id', 'desc')->get();
            return DataTables::of($query)
                ->addIndexColumn()
                ->editColumn('nama_pembelian', function ($item) {
                  return $item->nama_pembelian;
                })
-               ->editColumn('image_pembelian', function($item){
+               ->editColumn('assign_by', function($item){
+                 $ketua = $item->id_assign ? User::find($item->id_assign) : null;
+                 $kema = $item->acc_kema ? User::find($item->acc_kema) : null;
+                 $rektor = $item->acc_rektor ? User::find($item->acc_rektor) : null;
+                 if($ketua){
+                   return '
+                    <div>
+                    '.($ketua ? $ketua->name : '').'<br />
+                    '.($kema ? $kema->name : '').'<br />
+                    '.($rektor ? $rektor->name : '').'<br />
+                    </div>
+                  ';
+                 }else {
+                   return null;
+                 }
+               })
+               ->editColumn('image_pembelian', function($item) {
                    return $item->image_pembelian ? '<img src="'. Storage::url($item->image_pembelian).'" style="max-height: 50px;" />' : '';
                })
-               ->editColumn('harga_pembelian', function($item){
+               ->editColumn('harga_pembelian', function($item) {
                    return number_format($item->harga_pembelian);
                })
-               ->editColumn('created_at', function($item){
+               ->editColumn('created_at', function($item) {
                  return \Carbon\Carbon::parse($item->created_at)->format('d-M-Y');
+               })
+               ->addColumn('pdf_file', function($item) {
+                 if($item->pdf_file != null){
+                   return '
+                     <a href="'.Storage::url($item->pdf_file).'" class="btn btn-primary btn-sm" target="_blank">
+                      File Pembelian
+                     </a>
+                   ';
+                 } else {
+                   return '';
+                 }
                })
                ->addColumn('aksi', function($item) {
                  $user = Auth::user()->getRoleNames()[0];
-                 // dd($user == 'Admin');
-                 if($user == 'Ketua' && $item->assign_by == null){
+                 if($user == 'Ketua' && $item->assign_by == null) {
                    return '
                      <div class="aksi d-flex align-items-center">
                          <div class="aksi-edit px-1">
@@ -80,6 +107,48 @@ class PembelianController extends Controller
                              </div>
                          </div>
                      ';
+                 } else if($user == 'Kema' && $item->assign_by != null && $item->acc_kema == null) {
+                   return '
+                     <div class="aksi d-flex align-items-center">
+                         <div class="aksi-edit px-1">
+                           <form class="inline-block" action="'. route('pembelian.terimakema', $item->id) .'" method="POST">
+                               <button class="btn btn-success">
+                                   Terima
+                               </button>
+                                   '. method_field('post') . csrf_field() .'
+                           </form>
+                         </div>
+                         <div class="aksi-hapus">
+                             <form class="inline-block" action="'. route('pembelian.destroy', $item->id) .'" method="POST">
+                                 <button class="btn btn-danger">
+                                     Tolak
+                                 </button>
+                                     '. method_field('delete') . csrf_field() .'
+                             </form>
+                         </div>
+                     </div>
+                     ';
+                 } else if($user == 'Rektor' && $item->acc_kema != null && $item->acc_rektor == null) {
+                   return '
+                     <div class="aksi d-flex align-items-center">
+                         <div class="aksi-edit px-1">
+                           <form class="inline-block" action="'. route('pembelian.terimarektor', $item->id) .'" method="POST">
+                               <button class="btn btn-success">
+                                   Terima
+                               </button>
+                                   '. method_field('post') . csrf_field() .'
+                           </form>
+                         </div>
+                         <div class="aksi-hapus">
+                             <form class="inline-block" action="'. route('pembelian.destroy', $item->id) .'" method="POST">
+                                 <button class="btn btn-danger">
+                                     Tolak
+                                 </button>
+                                     '. method_field('delete') . csrf_field() .'
+                             </form>
+                         </div>
+                     </div>
+                     ';
                  } else if($user == 'Ketua' && $item->assign_by != null){
                    return '
                      <div class="aksi d-flex align-items-center">
@@ -94,7 +163,7 @@ class PembelianController extends Controller
                    return null;
                  }
              })
-           ->rawColumns(['id','image_pembelian','aksi'])
+           ->rawColumns(['id','image_pembelian','aksi', 'pdf_file', 'assign_by'])
            ->make();
        }
 
@@ -192,6 +261,16 @@ class PembelianController extends Controller
     public function terima($id){
        $item = Pembelian::findOrFail($id);
        $item->update(['assign_by' => Auth::user()->id]);
+       return redirect()->route('pembelian.index');
+    }
+    public function terimakema($id){
+       $item = Pembelian::findOrFail($id);
+       $item->update(['acc_kema' => Auth::user()->id]);
+       return redirect()->route('pembelian.index');
+    }
+    public function terimarektor($id){
+       $item = Pembelian::findOrFail($id);
+       $item->update(['acc_rektor' => Auth::user()->id]);
        return redirect()->route('pembelian.index');
     }
 }

@@ -60,7 +60,7 @@
                 <a href="{{ route('dashboard') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text {{ request()->is('/') ? 'active' : '' }}"><i
                         class="fas fa-tachometer-alt me-2"></i>Beranda</a>
-              @if($user == 'Admin' || $user == 'Ketua')
+              @if($user != 'Ukm')
                 <a href="{{ route('kategori.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('kategori') ? 'active' : '' }}"><i
                         class="fas fa-project-diagram me-2"></i>Kategori</a>

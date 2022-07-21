@@ -23,6 +23,7 @@
                         <th>Diajukan Oleh</th>
                         <th>Disetujui Oleh</th>
                         <th>Gambar Pembelian</th>
+                        <th>DOC Pembelian</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -80,12 +81,14 @@
                     data: 'image_pembelian',
                     name: 'image_pembelian',
                 },
-
+                {
+                    data: 'pdf_file',
+                    name: 'pdf_file',
+                },
                 {
                     data: 'aksi',
                     name: 'aksi',
                     width: '5%',
-
                     orderable: false,
                     searchable: false,
                     sortable: false
