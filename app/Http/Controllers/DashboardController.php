@@ -7,7 +7,7 @@ use App\Models\Barang;
 use App\Models\Kategori;
 use App\Models\Komplain;
 use App\Models\Pemakaian;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Yajra\DataTables\Facades\DataTables;
 class DashboardController extends Controller
@@ -31,25 +31,36 @@ class DashboardController extends Controller
                   ->addColumn('nama_peminjam', function($item){
                     return $item->nama_peminjam;
                   })
+                  ->editColumn('acc_ketua', function($item){
+                    $user = User::find($item->acc_ketua);
+                    return $user ? $user->name : null;
+                  })
                   ->editColumn('aksi', function ($item) {
-                      return '
-                          <div class="aksi d-flex align-items-center">
-                              <div class="aksi-edit px-1">
-                                  <a class="btn btn-success edit" href="'. route('pemakaian.edit', $item->id_pemakaian) .'">
-                                      edit
-                                  </a>
-                              </div>
-                              <div class="aksi-hapus">
-                                  <form class="inline-block" action="'. route('pemakaian.destroy', $item->id_pemakaian) .'" method="POST">
-                                      <button class="btn btn-danger">
-                                          hapus
-                                      </button>
-                                          '. method_field('delete') . csrf_field() .'
-                                  </form>
-                              </div>
-                          </div>
-                      ';
-
+                    if($item->jumlah_diterima == null && $item->status == 'Disetujui'){
+                        return '
+                            <div class="aksi d-flex align-items-center">
+                                <div class="aksi-edit px-1">
+                                    <button onclick="insertJumlah('.$item->id_pemakaian.')" class="btn-sm btn btn-primary edit" >
+                                        BARANG DITERIMA
+                                    </button>
+                                </div>
+                            </div>
+                        ';
+                    }elseif (($item->jumlah_diterima != null
+                          && $item->jumlah_dikembalikan == null)
+                        || $item->jumlah_diterima != $item->jumlah_dikembalikan) {
+                        return '
+                            <div class="aksi d-flex align-items-center">
+                                <div class="aksi-edit px-1">
+                                    <button onclick="kembalikanJumlah('.$item->id_pemakaian.')" class=" btn-sm btn btn-warning edit" >
+                                        KEMBALIKAN
+                                    </button>
+                                </div>
+                            </div>
+                        ';
+                    }else{
+                      return null;
+                    }
                   })
               ->rawColumns(['id_user', 'name', 'nama_peminjam', 'aksi'])
               ->make();

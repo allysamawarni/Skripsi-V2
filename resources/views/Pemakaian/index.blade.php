@@ -21,7 +21,7 @@
                     <th>Tanggal Pinjam</th>
                     <th>Tanggal Pengembalian</th>
                     <th>Jumlah Item</th>
-                    {{-- <th>Aksi</th> --}}
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -75,15 +75,15 @@
                     data: 'jml_item',
                     name: 'jml_item',
                 },
-                // {
-                //     data: 'aksi',
-                //     name: 'aksi',
-                //     width: '5%',
-                //
-                //     orderable: false,
-                //     searchable: false,
-                //     sortable: false
-                // },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    width: '5%',
+
+                    orderable: false,
+                    searchable: false,
+                    sortable: false
+                }
             ]
         });
     </script>

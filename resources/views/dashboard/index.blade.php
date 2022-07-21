@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('container')
+  <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -60,14 +61,19 @@
               <table class="table" id="crudTable">
                   <thead>
                       <tr>
-                          <th>No</th>
+                          <!-- <th>No</th> -->
                           <th>User</th>
                           <th>Nama Peminjam</th>
                           <th>Nama Kegiatan</th>
                           <th>Nama Barang</th>
                           <th>Tanggal Pinjam</th>
+                          <th>Status</th>
+                          <th>Di terima oleh</th>
                           <th>Tanggal Pengembalian</th>
                           <th>Jumlah Item</th>
+                          <th>Jumlah Diterima</th>
+                          <th>Jumlah Pengembalian</th>
+                          <th>Aksi</th>
                       </tr>
                   </thead>
                   <tbody></tbody>
@@ -121,6 +127,39 @@
     </div>
 @endsection
 @push('script')
+
+<script>
+function insertJumlah(id) {
+  let person = prompt("Masukkan jumlah barang yang diterima.");
+  if (person != null) {
+    var saveData = $.ajax({
+          type: 'POST',
+          url: '{!! url()->current().'/terima-barang' !!}',
+          data: {id_pemakaian: id, jumlah_diterima: person, "_token": $('#token').val()},
+          dataType: "text",
+          success: function(resultData) {
+            location.reload();
+          }
+    });
+    saveData.error(function() { alert("Something went wrong"); });
+  }
+}
+function kembalikanJumlah(id) {
+  let person = prompt("Masukkan jumlah barang yang akan dikembalikan.");
+  if (person != null) {
+    var saveData = $.ajax({
+          type: 'POST',
+          url: '{!! url()->current().'/kembali-barang' !!}',
+          data: {id_pemakaian: id, jumlah_dikembalikan: person, "_token": $('#token').val()},
+          dataType: "text",
+          success: function(resultData) {
+            location.reload();
+          }
+    });
+    saveData.error(function() { alert("Something went wrong"); });
+  }
+}
+</script>
     <script>
         let datatable = $('#crudTable').DataTable({
             ordering: true,
@@ -130,14 +169,15 @@
                 url: '{!! url()->current() !!}',
             },
 
-            columns: [{
-                    data: 'DT_RowIndex',
-                    width: '5%',
-                    className: 'dt-body-center',
-                    searchable: false,
-                    sortable: false,
+            columns: [
+              // {
+              //       data: 'DT_RowIndex',
+              //       width: '5%',
+              //       className: 'dt-body-center',
+              //       searchable: false,
+              //       sortable: false,
 
-                },
+              //   },
                 {
                     data: 'id_user',
                     name: 'id_user',
@@ -159,6 +199,14 @@
                     name: 'tgl_pinjam',
                 },
                 {
+                    data: 'status',
+                    name: 'status',
+                },
+                {
+                    data: 'acc_ketua',
+                    name: 'acc_ketua',
+                },
+                {
                     data: 'tgl_pengembalian',
                     name: 'tgl_pengembalian',
                 },
@@ -166,15 +214,23 @@
                     data: 'jml_item',
                     name: 'jml_item',
                 },
-                // {
-                //     data: 'aksi',
-                //     name: 'aksi',
-                //     width: '5%',
-                //
-                //     orderable: false,
-                //     searchable: false,
-                //     sortable: false
-                // },
+                {
+                    data: 'jumlah_diterima',
+                    name: 'jumlah_diterima',
+                },
+                {
+                    data: 'jumlah_dikembalikan',
+                    name: 'jumlah_dikembalikan',
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    width: '5%',
+
+                    orderable: false,
+                    searchable: false,
+                    sortable: false
+                },
             ]
         });
     </script>

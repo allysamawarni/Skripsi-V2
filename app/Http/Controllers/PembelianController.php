@@ -62,7 +62,7 @@ class PembelianController extends Controller
                          </div>
                      </div>
                      ';
-                 } else if($user == 'Admin') {
+                 } else if($user == 'Admin' && $item->assign_by == null) {
                      return '
                          <div class="aksi d-flex align-items-center">
                              <div class="aksi-edit px-1">

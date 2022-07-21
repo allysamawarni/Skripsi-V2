@@ -41,7 +41,7 @@
                 <select name="id_barang" id="id_barang" class="form-control" required>
                       <option value="">Pilih Barang</option>
                       @foreach ($barang as $key => $item)
-                          <option value="{{ $item->id_stok }}">{{ $item->nama_barang }} ({{$item->nama_ukuran}})</option>
+                          <option value="{{ $item->id_stok }}" data-stok="{{$item->jumlah_stok}}">{{ $item->nama_barang }} ({{$item->nama_ukuran}} - Stok {{$item->jumlah_stok}})</option>
                       @endforeach
                   </select>
                   <span class="help-block with-errors"></span>
@@ -91,12 +91,22 @@
                   </div>
               </div>
               <div class="form-group my-2">
-                  <input type="number" class="form-control @error('jml_item') is-invalid @enderror" placeholder="Jumlah Item" id="jml_item" name="jml_item" value="{{ old('jml_item') }}">
+                  <input type="number" class="form-control @error('jml_item') is-invalid @enderror" placeholder="Jumlah Item" id="jml_item" name="jml_item" value="{{ old('jml_item') }}" min="0">
                   @error('jml_item')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
                   @enderror
+              </div>
+
+              <div class="form-group input-group py-2">
+                <input type="file" class="form-control @error('pdf_pemakaian') is-invalid @enderror" name="pdf_pemakaian" id="pdf_pemakaianss" accept="application/pdf">
+                <label class="input-group-text" for="pdf_pemakaian">Upload PDF Pembelian</label>
+                @error('pdf_pemakaian')
+                  <div class="invalid-feedback">
+                      {{ $message }}
+                  </div>
+                @enderror
               </div>
               <div class="form-btn mt-5">
                   <button type="submit" class="btn btn-primary">simpan</button>
@@ -108,3 +118,18 @@
   </div>
 
 @endsection
+@push('script')
+  <script type="text/javascript">
+    $('select#id_barang').on('change', function() {
+      jQuery('#jml_item').attr('max', this.options[this.selectedIndex].getAttribute('data-stok'));
+      $('#jml_item').val(0);
+    });
+    $(':input#jml_item').on('change', function(){
+      var max = $("#jml_item").attr("max");
+      var value = $(this).val()
+      if(value > max){
+        $(this).val(max);
+      }
+    });
+  </script>
+@endpush

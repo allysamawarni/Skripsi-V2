@@ -80,23 +80,6 @@
                     </div>
                 @enderror
               </div>
-              {{-- <div class="form-group py-2">
-=======
-
-              <div class="form-group py-2">
->>>>>>> 85a0c3e14469d88a71d16b2b49bc181243d97bc4
-                  <input required type="file" class="form-control @error('image_pembelian') is-invalid @enderror"
-                      placeholder="Foto pembelian" id="image_pembelian" name="image_pembelian" value="{{ old('image_pembelian') }}" accept="image/png, image/gif, image/jpeg">
-              </div> --}}
-              {{-- <div class="form-group py-2">
-                  <input required type="file" class="form-control @error('file_pdf') is-invalid @enderror"
-                      placeholder="Foto pembelian" id="file_pdf" name="file_pdf" value="{{ old('file_pdf') }}" accept="application/pdf">
-                  @error('file_pdf')
-                      <div class="invalid-feedback">
-                          {{ $message }}
-                      </div>
-                  @enderror
-              </div> --}}
               <div class="form-btn mt-2">
                   <button type="submit" class="btn btn-primary">Simpan</button>
               </div>
