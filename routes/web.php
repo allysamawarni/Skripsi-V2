@@ -42,6 +42,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::resource('/perawatan', PerawatanController::class);
     Route::post('/komplain/reply/{id}', 'App\Http\Controllers\KomplainController@reply')->name('komplain.reply');
     Route::post('/pembelian/terima/{id}', 'App\Http\Controllers\PembelianController@terima')->name('pembelian.terima');
+    Route::post('/pembelian/terimakema/{id}', 'App\Http\Controllers\PembelianController@terimakema')->name('pembelian.terimakema');
+    Route::post('/pembelian/terimarektor/{id}', 'App\Http\Controllers\PembelianController@terimarektor')->name('pembelian.terimarektor');
     Route::post('/pemakaian/terima/{id}', 'App\Http\Controllers\PemakaianController@terima')->name('pemakaian.terima');
     Route::post('terima-barang', 'App\Http\Controllers\PemakaianController@terimaBarang')->name('pemakaian.terimabarang');
     Route::post('kembali-barang', 'App\Http\Controllers\PemakaianController@kembaliBarang')->name('pemakaian.kembalibarang');

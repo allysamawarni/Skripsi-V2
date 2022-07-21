@@ -101,7 +101,7 @@
 
               <div class="form-group input-group py-2">
                 <input type="file" class="form-control @error('pdf_pemakaian') is-invalid @enderror" name="pdf_pemakaian" id="pdf_pemakaianss" accept="application/pdf">
-                <label class="input-group-text" for="pdf_pemakaian">Upload PDF Pembelian</label>
+                <label class="input-group-text" for="pdf_pemakaian">Upload PDF Peminjaman</label>
                 @error('pdf_pemakaian')
                   <div class="invalid-feedback">
                       {{ $message }}
