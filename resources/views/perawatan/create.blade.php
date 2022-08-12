@@ -14,7 +14,7 @@
                   <select name="id_barang" id="id_barang" class="form-control" required>
                       <option value="">Pilih Barang</option>
                       @foreach ($barang as $key => $item)
-                          <option value="{{ $key }}">{{ $item }}</option>
+                        <option value="{{ $item->id_stok }}" data-stok="{{$item->jumlah_stok}}">{{ $item->nama_barang }} ({{$item->nama_ukuran}} - Stok {{$item->stok}})</option>
                       @endforeach
                   </select>
                   <span class="help-block with-errors"></span>
@@ -28,12 +28,20 @@
                     @endforeach
                   </select>
               </div>
+              <div class="form-group my-2">
+                <input type="number" class="form-control @error('jml_item') is-invalid @enderror" placeholder="Jumlah Item" id="jml_item" name="jml_item" value="{{ old('jml_item') }}" min="0">
+                @error('jml_item')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
               <div class="form-group my-2 row">
                   <label class="col-md-2" for="">
                     <strong>Tanggal Perawatan</strong>
                   </label>
                   <div class="col-md-12">
-                    <input type="date" class="form-control @error('tgl_perawatan') is-invalid @enderror" placeholder="Tanggal Perawatans" id="tgl_perawatan" name="tgl_perawatan" required value="{{ old('tgl_perawatan') }}">
+                    <input type="date" min="{{date('Y-m-d')}}" class="form-control @error('tgl_perawatan') is-invalid @enderror" placeholder="Tanggal Perawatans" id="tgl_perawatan" name="tgl_perawatan" required value="{{ old('tgl_perawatan') }}">
                     @error('tgl_perawatan')
                         <div class="invalid-feedback">
                             {{ $message }}

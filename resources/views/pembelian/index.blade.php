@@ -23,7 +23,7 @@
                         <th>Diajukan Oleh</th>
                         <th>Disetujui Oleh</th>
                         <th>Gambar Pembelian</th>
-                        <th>DOC Pembelian</th>
+                        <th>Surat Pembelian</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -44,6 +44,7 @@
             ajax: {
                 url: '{!! url()->current() !!}',
             },
+            
 
             columns: [{
                     data: 'DT_RowIndex',

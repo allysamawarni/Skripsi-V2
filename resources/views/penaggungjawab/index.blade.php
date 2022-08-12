@@ -1,42 +1,39 @@
 @extends('layouts.main')
 
 @section('container')
-  <div class="card">
-      <div class="card-header d-flex justify-content-between">
-        <h3>Daftar Komplain Barang</h3>
+<div class="card">
+    <div class="card-header d-flex justify-content-between">
+        <h3>Penanggungjawab</h3>
 
         @if(Auth::user()->getRoleNames()[0] == 'Admin')
-        <a href="{{ route('komplain.create') }}" type="button" class="btn btn-primary">Tambah</a>
-      @endif
-      </div>
-      <div class="card-body">
+        <a href="{{ url('create_pj')}}" type="button" class="btn btn-primary">Tambah</a>
+        @endif
+    </div>
+    <div class="card-body">
         <table class="table" id="crudTable">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>User</th>
-                    <th>Nama Barang</th>
-                    <th>Pesan Komplain</th>
+                    <th>Nama</th>
+                    <th>Periode</th>
+                    <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
-      </div>
-  </div>
+    </div>
+</div>
 @endsection
 @push('script')
     <script>
         let datatable = $('#crudTable').DataTable({
             ordering: true,
             searchable: true,
+            bAutoWidth: false,
             ajax: {
                 url: '{!! url()->current() !!}',
             },
-            dom: 'Bfrtip',
-                 buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-                 ],
             columns: [{
                     data: 'DT_RowIndex',
                     width: '5%',
@@ -50,17 +47,18 @@
                     name: 'name',
                 },
                 {
-                    data: 'nama_barang',
-                    name: 'nama_barang',
+                    data: 'tahun',
+                    name: 'tahun',
                 },
                 {
-                    data: 'pesan',
-                    name: 'pesan',
+                    data: 'status',
+                    name: 'status',
                 },
                 {
                     data: 'aksi',
                     name: 'aksi',
-                    width: '5%',
+                    width: '10%',
+
                     orderable: false,
                     searchable: false,
                     sortable: false

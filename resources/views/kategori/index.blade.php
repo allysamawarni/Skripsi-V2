@@ -17,7 +17,7 @@
                   <tr>
                       <th>No</th>
                       <th>Nama Kategori</th>
-                      <th>Aksi</th>
+                      {{-- <th>Aksi</th> --}}
                   </tr>
               </thead>
               <tbody></tbody>
@@ -49,15 +49,15 @@
                     name: 'nama_kategori',
                 },
 
-                {
-                    data: 'aksi',
-                    name: 'aksi',
-                    width: '5%',
+                // {
+                //     data: 'aksi',
+                //     name: 'aksi',
+                //     width: '5%',
 
-                    orderable: false,
-                    searchable: false,
-                    sortable: false
-                },
+                //     orderable: false,
+                //     searchable: false,
+                //     sortable: false
+                // },
             ]
         });
     </script>

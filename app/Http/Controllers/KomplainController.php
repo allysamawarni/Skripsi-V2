@@ -7,7 +7,7 @@ use App\Models\Komplain;
 use App\Models\Barang;
 use App\Models\Pemakaian;
 use Yajra\DataTables\Facades\DataTables;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class KomplainController extends Controller
 {
@@ -90,7 +90,7 @@ class KomplainController extends Controller
         $user = Auth::user()->getRoleNames()[0];
 
         if($user == 'Ukm'){
-          return redirect()->back()->with('message', 'Komplainmu berhasil di submit bro, mohon tunggu dibalas.');
+          return redirect()->back()->with('message', 'Peminjamanmu berhasil, mohon tunggu disetujui.');
         } else {
           return redirect()->route('komplain.index');
         }

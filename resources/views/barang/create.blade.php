@@ -29,7 +29,7 @@
                   @enderror
               </div>
               <div class="form-group py-2">
-                  <input type="taxt" class="form-control @error('tahun_barang') is-invalid @enderror"
+                  <input type="text" class="form-control @error('tahun_barang') is-invalid @enderror"
                       placeholder="Tahun barang" id="tahun_barang" name="tahun_barang" value="{{ old('tahun_barang') }}">
                   @error('tahun_barang')
                       <div class="invalid-feedback">

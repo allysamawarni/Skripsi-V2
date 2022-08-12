@@ -11,6 +11,12 @@
       </div>
     </div>
   </div>
+
+  <div class="col-lg-12 mx-auto">
+    <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+      <h1 class="fw-light">Inventaris Paduan Suara Universitas Pancasila</h1>
+    </div>
+</div>
     <div class="row g-3 my-2">
       @if(Auth::user()->getRoleNames()[0] != 'Ukm')
         <div class="col-md-4">
@@ -57,8 +63,8 @@
             <div class="card-header">
               History Pemakaian Saya
             </div>
-            <div class="card-body">
-              <table class="table" id="crudTable">
+            <div class="card-body table-responsive">
+              <table class="table scroll-horizontal-vertical " id="crudTable">
                   <thead>
                       <tr>
                           <!-- <th>No</th> -->
@@ -66,13 +72,16 @@
                           <th>Nama Peminjam</th>
                           <th>Nama Kegiatan</th>
                           <th>Nama Barang</th>
+                          {{-- <th>Ukuran</th> --}}
                           <th>Tanggal Pinjam</th>
                           <th>Status</th>
                           <th>Di terima oleh</th>
                           <th>Tanggal Pengembalian</th>
                           <th>Jumlah Item</th>
+                          <th>Surat Peminjaman</th>
                           <th>Jumlah Diterima</th>
                           <th>Jumlah Pengembalian</th>
+                          <th>Keterangan</th>
                           <th>Aksi</th>
                       </tr>
                   </thead>
@@ -194,6 +203,10 @@ function kembalikanJumlah(id) {
                     data: 'nama_barang',
                     name: 'nama_barang',
                 },
+                // {
+                //     data: 'id_ukuran',
+                //     name: 'id_ukuran',
+                // },
                 {
                     data: 'tgl_pinjam',
                     name: 'tgl_pinjam',
@@ -215,12 +228,20 @@ function kembalikanJumlah(id) {
                     name: 'jml_item',
                 },
                 {
+                    data: 'pdf_pemakaian',
+                    name: 'pdf_pemakaian',
+                },
+                {
                     data: 'jumlah_diterima',
                     name: 'jumlah_diterima',
                 },
                 {
                     data: 'jumlah_dikembalikan',
                     name: 'jumlah_dikembalikan',
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan',
                 },
                 {
                     data: 'aksi',

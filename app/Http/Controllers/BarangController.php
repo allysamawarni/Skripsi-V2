@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\BarangRequest;
+use App\Models\Penanggungjawab;
 use App\Models\Barang;
 use App\Models\Kategori;
 use App\Models\Status;
@@ -23,6 +24,8 @@ class BarangController extends Controller
      */
     public function index()
     {
+
+      // return base64_encode(asset('storage/assets/pancasila.png'));
          if(request()->ajax()) {
             $query = Barang::orderBy('id_barang', 'desc')->get();
             foreach ($query as $value) {
@@ -46,17 +49,36 @@ class BarangController extends Controller
                   }
                   return $item->nilai_residu || $item->umur_barang ? number_format($penyusutan) : 0;
                 })
+                ->editColumn('per_tahun', function($item){
+                  $tahun = intval($item->tahun_barang);
+                  $umur_tahun = intval($item->umur_barang);
+
+                  $jml_tahun = $tahun + $umur_tahun;
+                  if( date('Y') > $jml_tahun ){
+                    $per_tahun = 0;
+                  }else{
+                    $penyusutan = ((Int) $item->harga_beli - (Int) $item->nilai_residu) / (Int)$item->umur_barang;
+                    $p_pertahun = $penyusutan / $umur_tahun;
+
+                    $tahun_ini = date('Y');
+                    $ht_tahun = intval($tahun_ini) - $tahun;
+
+                    $per_tahun = number_format(intval($ht_tahun * $p_pertahun));
+
+                  }
+                  return $per_tahun;
+                })
                 ->addColumn('aksi', function($item) {
                   if(Auth::user()->getRoleNames()[0] == 'Admin'){
                       return '
-                          <div class="aksi d-flex align-items-center">
-                              <div class="aksi-edit px-1">
-                                  <a class="btn btn-success edit" href="'. route('barang.edit', $item->id_barang) .'">
+                          <div class="aksi d-inline-flex align-items-center">
+                                  <a class="btn btn-warning detail" href="'. route('barang.show', $item->id_barang) .'">
+                                      detail
+                                  </a>
+                                  <a class="btn btn-success edit" style = "margin-left: 5px;" href="'. route('barang.edit', $item->id_barang) .'">
                                       edit
                                   </a>
-                              </div>
-                              <div class="aksi-hapus">
-                                  <form class="inline-block" action="'. route('barang.destroy', $item->id_barang) .'" method="POST">
+                                  <form class="inline-block p-2" action="'. route('barang.destroy', $item->id_barang) .'" method="POST">
                                       <button class="btn btn-danger">
                                           hapus
                                       </button>
@@ -74,7 +96,11 @@ class BarangController extends Controller
                 ->make();
         }
 
-        return view('barang.index');
+        $data['penanggungjawab'] = Penanggungjawab::join('users', 'users.id', 'penanggungjawab.id_users')
+        ->select('penanggungjawab.*', 'users.name')
+        ->where('status', 'aktiv')
+        ->orderBy('penanggungjawab.id_pj', 'desc')->first();
+        return view('barang.index', $data);
     }
 
     /**
@@ -135,6 +161,21 @@ class BarangController extends Controller
     public function show($id)
     {
         //
+      $barang = Barang::join('kategori', 'kategori.id_kategori', 'barang.id_kategori')->where('id_barang', $id)->first();
+      $stok = Stok::join('barang', 'barang.id_barang', 'stok.id_barang')
+                  ->join('ukurans', 'ukurans.id_ukuran', 'stok.id_ukuran')
+                  ->join('kategori', 'kategori.id_kategori', 'barang.id_kategori')
+                  ->selectRaw('barang.nama_barang, kategori.nama_kategori, ukurans.nama_ukuran, SUM(jumlah_stok) as stok')
+                  ->where('barang.id_barang', $id)
+                  ->groupBy('barang.id_barang', 'ukurans.id_ukuran')->get();
+      $data = [
+        'barang' => $barang,
+        'stok' => $stok,
+      ];
+
+      return view('barang.detail', $data);
+
+
     }
 
     /**

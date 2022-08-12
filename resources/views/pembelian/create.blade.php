@@ -53,8 +53,8 @@
                   <label class="col-md-2" for="">
                     <strong>Tanggal Pembelian</strong>
                   </label>
-                  <div class="col-md-12">
-                    <input type="date" class="form-control @error('tgl_pembelian') is-invalid @enderror" placeholder="Tanggal Pembelian" id="tgl_pembelian" name="tgl_pembelian" required value="{{ old('tgl_pembelian') }}">
+                  <div class="col-md-12 mt-1">
+                    <input type="date" main="{{date('Y-m-d')}}" class="form-control @error('tgl_pembelian') is-invalid @enderror" placeholder="Tanggal Pembelian" id="tgl_pembelian" name="tgl_pembelian" required value="{{ old('tgl_pembelian') }}">
                     @error('tgl_pembelian')
                         <div class="invalid-feedback">
                             {{ $message }}

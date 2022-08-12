@@ -15,9 +15,13 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Barang</th>
+                    <th>Nama Ukuran</th>
+                    <th>Jumlah Dirawat</th>
                     <th>Status</th>
                     <th>Tanggal Perawatan</th>
+                    <th>Status Perawatan</th>
                     <th>Foto</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -48,6 +52,14 @@
                     name: 'nama_barang',
                 },
                 {
+                    data: 'nama_ukuran',
+                    name: 'nama_ukuran',
+                },
+                {
+                    data: 'jml_item',
+                    name: 'jml_item',
+                },
+                {
                   data:'nama_status',
                   name: 'nama_status',
                 },
@@ -56,8 +68,21 @@
                     name: 'tgl_perawatan',
                 },
                 {
+                    data: 'status_perawatan',
+                    name: 'status_perawatan',
+                },
+                {
                     data: 'foto_perawatan',
                     name: 'foto_perawatan',
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    width: '5%',
+
+                    orderable: false,
+                    searchable: false,
+                    sortable: false
                 },
             ]
         });

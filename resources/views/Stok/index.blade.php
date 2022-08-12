@@ -3,11 +3,11 @@
 @section('container')
   <div class="card">
     <div class="card-header d-flex justify-content-between">
-      <h3>Stok Barang</h3>
+      <h3>History Pengembalian Barang</h3>
 
-      @if(Auth::user()->getRoleNames()[0] == 'Admin')
+      {{-- @if(Auth::user()->getRoleNames()[0] == 'Admin')
       <a href="{{ route('stok.create') }}" type="button" class="btn btn-primary">Tambah</a>
-    @endif
+    @endif --}}
     </div>
     <div class="card-body">
       <table class="table scroll-horizontal-vertical" id="crudTable">
@@ -16,9 +16,9 @@
                 <th>No</th>
                 <th>Nama Barang</th>
                 <th>Ukuran</th>
-                <th>Jumlah Stok</th>
+                <th>Jumlah Pengembalian</th>
                 <th>Status</th>
-                <th>Aksi</th>
+                {{-- <th>Aksi</th> --}}
             </tr>
           </thead>
           <tbody></tbody>
@@ -61,15 +61,15 @@
                     data: 'nama_status',
                     name: 'nama_status',
                 },
-                {
-                    data: 'aksi',
-                    name: 'aksi',
-                    width: '5%',
+                // {
+                //     data: 'aksi',
+                //     name: 'aksi',
+                //     width: '5%',
 
-                    orderable: false,
-                    searchable: false,
-                    sortable: false
-                },
+                //     orderable: false,
+                //     searchable: false,
+                //     sortable: false
+                // },
             ]
         });
     </script>

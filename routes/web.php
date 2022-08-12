@@ -11,6 +11,7 @@ use App\Http\Controllers\KomplainController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PerawatanController;
+use App\Http\Controllers\PenanggungjawabController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,8 +46,14 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/pembelian/terimakema/{id}', 'App\Http\Controllers\PembelianController@terimakema')->name('pembelian.terimakema');
     Route::post('/pembelian/terimarektor/{id}', 'App\Http\Controllers\PembelianController@terimarektor')->name('pembelian.terimarektor');
     Route::post('/pemakaian/terima/{id}', 'App\Http\Controllers\PemakaianController@terima')->name('pemakaian.terima');
+    Route::post('/pemakaian/selesai/{id}', 'App\Http\Controllers\PemakaianController@selesai')->name('pemakaian.selesai');
     Route::post('terima-barang', 'App\Http\Controllers\PemakaianController@terimaBarang')->name('pemakaian.terimabarang');
     Route::post('kembali-barang', 'App\Http\Controllers\PemakaianController@kembaliBarang')->name('pemakaian.kembalibarang');
+    Route::get('/penanggungjawab', [PenanggungjawabController::class,'index'])->name('penanggungjawab');
+    Route::get('/create_pj', [PenanggungjawabController::class,'create'])->name('create_pj');
+    Route::post('/insert_pj', [PenanggungjawabController::class,'insert'])->name('insert_pj');
+    Route::get('/nonaktiv_pj/{id}', [PenanggungjawabController::class,'non_aktiv'])->name('nonaktiv_pj');
+    Route::get('/aktiv_pj/{id}', [PenanggungjawabController::class,'aktiv'])->name('aktiv_pj');
 });
 
 // Route::middleware(['auth:sanctum', 'verified'], ['role:ukm'])->group(function () {

@@ -9,10 +9,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     {{-- datatable --}}
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.12.1/af-2.4.0/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/datatables.min.css"/>
+ 
+    
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/autofill/2.4.0/css/autoFill.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css"/> -->
 
     <link rel="stylesheet" href="{{ url('frontend/style/styles.css') }}" />
 
@@ -52,31 +55,31 @@
               {{-- <i class="fas fa fa-music me-2"></i> --}}
               <div class="">
                 <div style="color: black;font-size: 12pt">Paduan Suara </div>
-                <div style="color: black;font-size: 12pt">Universitas Pancasila</div>
+                <div style="color: black;font-size: 8pt">Universitas Pancasila</div>
               </div>
             </div>
             <div class="list-group list-group-flush my-3">
               @php($user = Auth::user()->getRoleNames()[0])
                 <a href="{{ route('dashboard') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text {{ request()->is('/') ? 'active' : '' }}"><i
-                        class="fas fa-tachometer-alt me-2"></i>Beranda</a>
+                        class="fa-solid fa-house-chimney me-2"></i>Beranda</a>
               @if($user != 'Ukm')
                 <a href="{{ route('kategori.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('kategori') ? 'active' : '' }}"><i
-                        class="fas fa-project-diagram me-2"></i>Kategori</a>
+                        class="fas fa-stream me-2"></i>Kategori</a>
                 <a href="{{ route('barang.index') }}"
                     class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('barang') ? 'active' : '' }}"><i
-                        class="fas fa-chart-line me-2"></i>Barang</a>
-                <a href="{{ route('stok.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('stok') ? 'active' : '' }}"><i class="fas fa-paperclip me-2"></i>Stok</a>
-                <a href="{{ route('status.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('status') ? 'active' : '' }}"><i class="fas fa-project-diagram me-2"></i>Status</a>
+                        class="fa fa-shopping-bag me-2"></i>Barang</a>
+                <a href="{{ route('stok.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('stok') ? 'active' : '' }}"><i class="fas fa-paperclip me-2"></i>History Pengembalian</a>
                 <a href="{{ route('pemakaian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pemakaian') ? 'active' : '' }}"><i class="fas fa-user-clock me-2"></i>Pemakaian</a>
-                <a href="{{ route('user.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('user') ? 'active' : '' }}"><i class="fas fa-user me-2"></i>User</a>
                 <a href="{{ route('komplain.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('komplain') ? 'active' : '' }}"><i class="fas fa-comment me-2"></i>Komplain</a>
-                <a href="{{ route('pembelian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pembelian') ? 'active' : '' }}"><i class="fas fa-shopping-cart me-2"></i>Pembelian</a>
+                <a href="{{ route('perawatan.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('perawatan') ? 'active' : '' }}"><i class="far fa-calendar-check me-2"></i>Perawatan</a>
+                <a href="{{ route('pembelian.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('pembelian') ? 'active' : '' }}"><i class="fa-solid fa-cart-shopping me-2"></i>Pembelian</a>
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-gift me-2"></i>Products</a> --}}
-                <a href="{{ route('perawatan.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('perawatan') ? 'active' : '' }}"><i class="fas fa-calendar me-2"></i>Perawatan</a>
                 <a href="{{ route('event.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('event') ? 'active' : '' }}"><i class="fas fa-calendar me-2"></i>Event</a>
+                <a href="{{ route('user.index') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('user') ? 'active' : '' }}"><i class="fas fa-user me-2"></i>User</a>
+                <a href="{{ route('penanggungjawab')}}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold {{ request()->is('penanggungjawab') ? 'active' : '' }}"><i class="fas fa-cog me-2"></i>Penanggungjawab</a>
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold"><i
                         class="fas fa-map-marker-alt me-2"></i>Outlet</a> --}}
                 {{-- <a href="#" class="list-group-item list-group-item-action bg-transparent text-danger fw-bold"><i
@@ -143,12 +146,16 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
     </script>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.12.1/af-2.4.0/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/datatables.min.js"></script>
 
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
-    <script src="https://cdn.datatables.net/autofill/2.4.0/js/dataTables.autoFill.min.js"></script>
+    <script src="https://cdn.datatables.net/autofill/2.4.0/js/dataTables.autoFill.min.js"></script> -->
 
     <script>
         var el = document.getElementById("wrapper");
