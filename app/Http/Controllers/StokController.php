@@ -6,7 +6,7 @@ use App\Models\Barang;
 use App\Models\Status;
 use App\Models\Ukuran;
 use Yajra\DataTables\Facades\DataTables;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class StokController extends Controller

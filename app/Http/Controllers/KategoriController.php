@@ -95,14 +95,14 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $item = Kategori::findOrFail($id);
+    // public function edit($id)
+    // {
+    //     $item = Kategori::findOrFail($id);
 
-        return view('kategori.edit', [
-            'item'=>$item
-        ]);
-    }
+    //     return view('kategori.edit', [
+    //         'item'=>$item
+    //     ]);
+    // }
 
     /**
      * Update the specified resource in storage.
